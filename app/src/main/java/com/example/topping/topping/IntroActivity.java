@@ -2,7 +2,6 @@ package com.example.topping.topping;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,7 +11,7 @@ public class IntroActivity extends AppCompatActivity {
     Runnable r = new Runnable() {
         @Override
         public void run() {
-            // 4초뒤에 다음화면(MainActivity)으로 넘어가기 Handler 사용
+            // 3초뒤에 다음화면(MainActivity)으로 넘어가기 Handler 사용
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent); // 다음화면으로 넘어가기
             finish(); // Activity 화면 제거
@@ -29,7 +28,7 @@ public class IntroActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // 다시 화면에 들어어왔을 때 예약 걸어주기
-        handler.postDelayed(r, 4000); // 4초 뒤에 Runnable 객체 수행
+        handler.postDelayed(r, 3000); // 3초 뒤에 Runnable 객체 수행
     }
 
     @Override
