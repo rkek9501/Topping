@@ -42,6 +42,15 @@
                 android:value="com.example.topping.topping.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".SearchActivity"
+            android:theme="@style/MyActionBar"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.topping.topping.MainActivity" />
+        </activity>
+
 
     </application>
 
