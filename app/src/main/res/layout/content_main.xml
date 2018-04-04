@@ -59,7 +59,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="10dp">
             <ImageView
-                android:background="@drawable/sport"
+                android:background="@drawable/main_sport"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
             <TextView
@@ -76,7 +76,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="10dp">
             <ImageView
-                android:background="@drawable/travel"
+                android:background="@drawable/main_travel"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
             <TextView
@@ -93,7 +93,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="10dp">
             <ImageView
-                android:background="@drawable/study"
+                android:background="@drawable/main_study"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
             <TextView

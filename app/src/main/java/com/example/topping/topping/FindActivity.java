@@ -15,6 +15,7 @@ public class FindActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
 
     }
 }
