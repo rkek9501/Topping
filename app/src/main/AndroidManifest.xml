@@ -22,11 +22,17 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".MemberActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:parentActivityName="com.example.topping.topping.FindActivity"
+            android:name=".FindActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.topping.topping.FindActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.search) {
 
         } else if (id == R.id.write) {
-
+            intent = new Intent(getApplicationContext(), FindActivity.class);
         }
         startActivity(intent);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
