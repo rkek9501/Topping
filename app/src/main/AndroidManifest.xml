@@ -18,40 +18,42 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".MemberActivity"
-            android:theme="@style/MyActionBar"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.topping.topping.MainActivity" />
         </activity>
-
         <activity
             android:name=".FindActivity"
-            android:theme="@style/MyActionBar"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.topping.topping.MainActivity" />
         </activity>
-
         <activity
             android:name=".SearchActivity"
-            android:theme="@style/MyActionBar"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.topping.topping.MainActivity" />
         </activity>
-
-
+        <activity
+            android:name=".ContentActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/MyActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.topping.topping.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
