@@ -6,28 +6,30 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.soyu.soyulib.soyuHttpTask;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class MainActivity extends AbstractActivity
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     EditText editText;
     Button findBtn;
     Handler handler = new MessageHandler();
+    FloatingActionButton fab;
+    Button logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +38,18 @@ public class MainActivity extends AppCompatActivity
 
         editText = (EditText)findViewById(R.id.main_editText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
+        logoutBtn = (Button)findViewById(R.id.log_out);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        findBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-            }
-        });
+        findBtn.setOnClickListener(this);
+        logoutBtn.setOnClickListener(this);
+        fab.setOnClickListener(this);
 
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/index.php","");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_reorder_black_24dp);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FindActivity.class);
-                startActivity(intent);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,6 +58,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View view = View.inflate(this,R.layout.nav_header_main,navigationView);
+        TextView googleId = (TextView)view.findViewById(R.id.googleId);
+        TextView googleEmail = (TextView)view.findViewById(R.id.googleEmail);
+        googleId.setText(user.getDisplayName());
+        googleEmail.setText(user.getEmail());
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.member_info) {
             intent = new Intent(getApplicationContext(), MemberActivity.class);
         } else if (id == R.id.like) {
-
+            intent = new Intent(getApplicationContext(), LoginActivity.class);
         } else if (id == R.id.search) {
 
         } else if (id == R.id.write) {
@@ -120,6 +118,20 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==findBtn){
+            startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+        }else if(v==fab){
+            startActivity(new Intent(getApplicationContext(), FindActivity.class));
+        }else if(v==logoutBtn){
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        }
     }
 
     private class MessageHandler extends Handler {

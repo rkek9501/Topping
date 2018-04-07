@@ -1,9 +1,8 @@
 package com.example.topping.topping;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ContentActivity extends AppCompatActivity {
+public class ContentActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
