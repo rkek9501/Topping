@@ -88,12 +88,14 @@
             android:gravity="bottom"
             >
             <Button
+                android:id="@+id/requestBtn"
                 android:text="신청"
                 android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
             <Button
+                android:id="@+id/changeBtn"
                 android:visibility="gone"
                 android:text="수정"
                 android:textAlignment="center"
