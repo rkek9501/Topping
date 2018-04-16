@@ -1,5 +1,6 @@
 package com.example.topping.topping;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,14 +18,38 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.soyu.soyulib.soyuHttpTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class MainActivity extends AbstractActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    private static final String TAG_JSON="topping";
+    private static final String TAG_USER_MAIL = "userMail";
+    private static final String TAG_USER_NAME = "userName";
+    private static final String TAG_USER_IMG ="userImg";
+
+    private TextView mTextViewResult;
+    ArrayList<HashMap<String, String>> mArrayList;
+    String mJsonString;
+
     EditText editText;
     Button findBtn;
     Handler handler = new MessageHandler();
@@ -61,11 +86,22 @@ public class MainActivity extends AbstractActivity
         View view = View.inflate(this,R.layout.nav_header_main,navigationView);
         TextView googleId = (TextView)view.findViewById(R.id.googleId);
         TextView googleEmail = (TextView)view.findViewById(R.id.googleEmail);
+        ImageView googleImg = (ImageView)view.findViewById(R.id.googleImg);
         googleId.setText(user.getDisplayName());
         googleEmail.setText(user.getEmail());
+        googleImg.setImageURI(user.getPhotoUrl());
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        LoginCheck();
     }
+    public void LoginCheck(){
+        String userMail = user.getEmail();
+        String type = "login";
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type,userMail);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -138,7 +174,7 @@ public class MainActivity extends AbstractActivity
         @Override
         public void handleMessage(Message msg){
             super.handleMessage(msg);
-            Log.e("TAG", "obj = "+msg.obj.toString());
+            Log.e("Test", "obj = "+msg.obj.toString());
         }
     }
 }

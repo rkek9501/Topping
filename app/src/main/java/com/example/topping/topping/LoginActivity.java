@@ -67,6 +67,10 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
                 }
             }
         };
+        checkFirstLoggin();
+    }
+
+    private void checkFirstLoggin() {
     }
 
     @Override
