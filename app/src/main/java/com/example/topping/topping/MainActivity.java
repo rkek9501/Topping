@@ -2,10 +2,12 @@ package com.example.topping.topping;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.sax.StartElementListener;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +58,8 @@ public class MainActivity extends AbstractActivity
     FloatingActionButton fab;
     Button logoutBtn;
 
+    ImageView image01;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +70,20 @@ public class MainActivity extends AbstractActivity
         logoutBtn = (Button)findViewById(R.id.log_out);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        image01 = (ImageView)findViewById(R.id.image01) ;
+
         findBtn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
         fab.setOnClickListener(this);
+
+
+        image01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/index.php","");
 
