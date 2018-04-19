@@ -14,7 +14,7 @@ public class SearchActivity extends AbstractActivity {
 
     private Button findBtn;
     private ListView listView;
-
+//안녕
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
