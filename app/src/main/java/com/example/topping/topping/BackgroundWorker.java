@@ -3,6 +3,9 @@ package com.example.topping.topping;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,58 +27,75 @@ import java.net.URLEncoder;
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
     Context context;
     AlertDialog alertDialog;
+    private Handler handler = null;
+    private String flag = "";
+
+    public BackgroundWorker(Handler mHandler) {
+        this.handler = mHandler;
+    }
+
     BackgroundWorker(Context context){
         this.context = context;
     }
     @Override
     protected String doInBackground(String... params) {
-        String type = params[0];
-        String login_url = "http://61.84.24.188/topping3/login.php";
-        if(type.equals("login")){
-            try {
-                String user_mail = params[1];
-                URL url = new URL(login_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("user_mail", "UTF-8")+"="+URLEncoder.encode(user_mail, "UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                String result = "";
-                String line = "";
-                while ((line = bufferedReader.readLine())!=null){
-                    result += line;
-                    bufferedReader.close();
-                    inputStream.close();
-                    httpURLConnection.disconnect();
-                    return result;
+        String result = "";
+        HttpURLConnection conn = null;
+
+        try {
+            Log.d("soyuHttpTask", "args[0] = " + params[0]);
+            Log.d("soyuHttpTask", "args[1] = " + params[1]);
+            this.flag = params[0];
+            String urlString = this.flag;
+            Log.d("soyuHttpTask", "urlString = " + urlString);
+            URL url = new URL(urlString);
+            conn = (HttpURLConnection)url.openConnection();
+            conn.setDoInput(true);
+            conn.setDoOutput(false);
+            conn.setUseCaches(false);
+            conn.setReadTimeout(20000);
+            conn.setRequestMethod("POST");
+            String text = "";
+            text += params[1];
+            PrintWriter output = new PrintWriter(conn.getOutputStream());
+            output.print(text);
+            output.close();
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            while(true) {
+                String line = br.readLine();
+                if(line == null) {
+                    br.close();
+                    conn.disconnect();
+                    conn = null;
+                    result = sb.toString();
+                    break;
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                sb.append(line).append("\n");
+            }
+        } catch (MalformedURLException var15) {
+            var15.printStackTrace();
+        } catch (IOException var16) {
+            var16.printStackTrace();
+        } finally {
+            if(conn != null) {
+                conn.disconnect();
             }
         }
-        return null;
+        return result;
     }
 
     @Override
     protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("title");
+        super.onPreExecute();
     }
 
-    @Override
     protected void onPostExecute(String result) {
-        alertDialog.setMessage(result);
-        alertDialog.show();
+        Message message = new Message();
+        message.obj = result.trim();
+        handler.sendMessage(message);
     }
 
     @Override
