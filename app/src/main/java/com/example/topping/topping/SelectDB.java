@@ -19,22 +19,25 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Arktic on 2018-04-17.
  */
 
-public class BackgroundWorker extends AsyncTask<String, Void, String> {
+public class SelectDB extends AsyncTask<String, Void, String> {
     Context context;
     AlertDialog alertDialog;
     private Handler handler = null;
     private String flag = "";
+    List<String> mail;
 
-    public BackgroundWorker(Handler mHandler) {
+    public SelectDB(Handler mHandler) {
         this.handler = mHandler;
     }
 
-    BackgroundWorker(Context context){
+    SelectDB(Context context){
         this.context = context;
     }
     @Override
@@ -50,15 +53,18 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             Log.d("soyuHttpTask", "urlString = " + urlString);
             URL url = new URL(urlString);
             conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setDoInput(true);
             conn.setDoOutput(false);
             conn.setUseCaches(false);
             conn.setReadTimeout(20000);
             conn.setRequestMethod("POST");
             String text = "";
-            text += params[1];
+//            result += params[0] +" - "+ params[1];
+            text += "mail="+params[1];
             PrintWriter output = new PrintWriter(conn.getOutputStream());
-            output.print(text);
+
+            output.write(text);
             output.close();
             StringBuilder sb = new StringBuilder();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));

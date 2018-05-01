@@ -1,11 +1,17 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.topping.topping.SelectDB;
+import com.example.topping.topping.InsertDB;
 import com.example.topping.topping.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,15 +25,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AbstractActivity implements GoogleApiClient.OnConnectionFailedListener {
+    private String Tag = "LoginActivity";
     private static final int RC_SIGN_IN = 10;
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+    Handler handler = new LoginHandler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +65,16 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
+
                 if(user!=null){
+                    userMail = user.getEmail();
+                    userName = user.getDisplayName();
+
+                    InsertDB task =new InsertDB(userMail,userName);
+                    task.execute(userMail, userName);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    LoginCheck();
+                    LoginCheck(userMail);
                     finish();
                 }else{
 
@@ -70,14 +82,40 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
             }
         };
     }
-
-    public void LoginCheck(){
-        String userMail = user.getEmail();
+    public void LoginCheck(String userMail){
         String type = "login";
-//        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/login.php", userMail.toString());
+
+//        SelectDB backgroundWorker = new SelectDB(this);
 //        backgroundWorker.execute(type,userMail);
     }
 
+
+
+    private class LoginHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String data = msg.obj.toString();
+            Log.e(Tag, "obj = " + msg.obj.toString());
+
+            loginJSONParser(data);
+        }
+    }
+    void loginJSONParser(String data) {
+        StringBuffer sb = new StringBuffer();
+        userMail = data;
+        /*try {
+            JSONArray jarray = new JSONArray(data);   // JSONArray 생성
+
+            *//*for (int i = 0; i < jarray.length(); i++) {
+                JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+                userMail = jObject.getString("userMail");
+            }*//*
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+    }
     @Override
     protected void onStart() {
         super.onStart();
