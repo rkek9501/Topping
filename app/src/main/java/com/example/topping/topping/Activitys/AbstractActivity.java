@@ -1,4 +1,4 @@
-package com.example.topping.topping;
+package com.example.topping.topping.Activitys;
 
 import android.support.v7.app.AppCompatActivity;
 

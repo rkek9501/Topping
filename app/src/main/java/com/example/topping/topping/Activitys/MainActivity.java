@@ -1,6 +1,5 @@
-package com.example.topping.topping;
+package com.example.topping.topping.Activitys;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,23 +18,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.topping.topping.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.soyu.soyulib.soyuHttpTask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -45,6 +34,8 @@ public class MainActivity extends AbstractActivity
     private static final String TAG_USER_MAIL = "userMail";
     private static final String TAG_USER_NAME = "userName";
     private static final String TAG_USER_IMG ="userImg";
+
+    private String Tag = "MainActivity";
 
     private TextView mTextViewResult;
     ArrayList<HashMap<String, String>> mArrayList;
@@ -93,15 +84,7 @@ public class MainActivity extends AbstractActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        LoginCheck();
     }
-    public void LoginCheck(){
-        String userMail = user.getEmail();
-        String type = "login";
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type,userMail);
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -174,7 +157,7 @@ public class MainActivity extends AbstractActivity
         @Override
         public void handleMessage(Message msg){
             super.handleMessage(msg);
-            Log.e("Test", "obj = "+msg.obj.toString());
+            Log.e(Tag, "obj = "+msg.obj.toString());
         }
     }
 }

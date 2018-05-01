@@ -23,7 +23,7 @@
           }
         },
         {
-          "client_id": "30723853734-fh7kc0o5kkqvn05ss3p8i24k4gsg93nc.apps.googleusercontent.com",
+          "client_id": "@string/login_key",
           "client_type": 3
         }
       ],

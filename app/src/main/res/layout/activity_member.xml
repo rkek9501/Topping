@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:background="@color/colorAccent"
-    tools:context="com.example.topping.topping.MemberActivity">
+    tools:context="com.example.topping.topping.Activitys.MemberActivity">
 
     <TextView
         android:text="회원정보"

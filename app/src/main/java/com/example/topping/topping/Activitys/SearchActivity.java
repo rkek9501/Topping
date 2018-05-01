@@ -1,7 +1,6 @@
-package com.example.topping.topping;
+package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,25 +9,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.soyu.soyulib.soyuHttpTask;
+import com.example.topping.topping.Adapters.SearchListViewAdapter;
+import com.example.topping.topping.BackgroundWorker;
+import com.example.topping.topping.R;
 
-import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Vector;
-
 public class SearchActivity extends AbstractActivity {
     private String Tag = "SearchActivity";
+    private static int index;
+    private static String[] userMail;
 
     private Button findBtn;
     private ListView listView;
@@ -60,7 +55,8 @@ public class SearchActivity extends AbstractActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "User ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "User : " +userMail[position] + ", index : " +(position+1), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), ContentActivity.class));
             }
         });
         listView.setAdapter(adapter);
@@ -83,14 +79,16 @@ public class SearchActivity extends AbstractActivity {
 
         try {
             JSONArray jarray = new JSONArray(str);   // JSONArray 생성
+            userMail = new String[jarray.length()];
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                String index = jObject.getString("index");
-                String userMail = jObject.getString("userMail");
+                index = jObject.getInt("index");
+
+                userMail[i] = jObject.getString("userMail");
                 String hobby = jObject.getString("hobby");
                 String fromDate = jObject.getString("fromDate");
 
-                adapter.addItem(null, userMail, hobby, fromDate);
+                adapter.addItem(null, userMail[i], hobby, fromDate);
             }
         } catch (JSONException e) {
             e.printStackTrace();

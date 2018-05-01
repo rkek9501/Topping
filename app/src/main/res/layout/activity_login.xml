@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/colorAccent"
-    tools:context="com.example.topping.topping.LoginActivity">
+    tools:context="com.example.topping.topping.Activitys.LoginActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
