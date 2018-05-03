@@ -65,6 +65,7 @@ public class MainActivity extends AbstractActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         editText = (EditText)findViewById(R.id.main_editText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
         logoutBtn = (Button)findViewById(R.id.log_out);
@@ -102,14 +103,16 @@ public class MainActivity extends AbstractActivity
         TextView googleId = (TextView)view.findViewById(R.id.googleId);
         TextView googleEmail = (TextView)view.findViewById(R.id.googleEmail);
         ImageView googleImg = (ImageView)view.findViewById(R.id.googleImg);
-        googleId.setText(user.getDisplayName());
-        googleEmail.setText(user.getEmail());
-        googleImg.setImageURI(user.getPhotoUrl());
+//        googleId.setText(user.getDisplayName());
+//        googleEmail.setText(user.getEmail());
+//        googleImg.setImageURI(user.getPhotoUrl());
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        LoginCheck();
+//        LoginCheck();
     }
+
+
     public void LoginCheck(){
         String userMail = user.getEmail();
         String type = "login";
@@ -174,7 +177,15 @@ public class MainActivity extends AbstractActivity
     @Override
     public void onClick(View v) {
         if(v==findBtn){
-            startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+
+
+            String id = editText.getText().toString();
+
+            Intent intent = new Intent(this,SearchActivity.class);
+            intent.putExtra("value",id);
+            startActivity(intent);
+
+            //startActivity(new Intent(getApplicationContext(), SearchActivity.class));
         }else if(v==fab){
             startActivity(new Intent(getApplicationContext(), FindActivity.class));
         }else if(v==logoutBtn){

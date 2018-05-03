@@ -6,19 +6,37 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class SearchActivity extends AbstractActivity {
 
+    EditText editText;
     private Button findBtn;
     private ListView listView;
 //안녕
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        editText = (EditText)findViewById(R.id.main_editText);
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("value");
+        if(id.equals(""))
+            Toast.makeText(this, "입력한 정보가 없습니다!", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this,"입력한 값은"+id+"입니다.",Toast.LENGTH_SHORT).show();
+
+        editText.setText(id);
+
+
+
+        //Intent intent = getIntent();
+        String data = intent.getStringExtra("value");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
