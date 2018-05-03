@@ -78,9 +78,9 @@ public class MainActivity extends AbstractActivity
         TextView googleId = (TextView)view.findViewById(R.id.googleId);
         TextView googleEmail = (TextView)view.findViewById(R.id.googleEmail);
         ImageView googleImg = (ImageView)view.findViewById(R.id.googleImg);
-        googleId.setText(user.getDisplayName());
-        googleEmail.setText(user.getEmail());
-        googleImg.setImageURI(user.getPhotoUrl());
+        // googleId.setText(user.getDisplayName());
+        // googleEmail.setText(user.getEmail());
+        // googleImg.setImageURI(user.getPhotoUrl());
 
         navigationView.setNavigationItemSelectedListener(this);
 

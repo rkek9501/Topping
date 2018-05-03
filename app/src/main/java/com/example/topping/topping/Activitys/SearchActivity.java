@@ -57,7 +57,9 @@ public class SearchActivity extends AbstractActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "User : " +userMail[position] + ", index : " +(position+1), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), ContentActivity.class));
+                Intent i = new Intent(getApplicationContext(), ContentActivity.class);
+                i.putExtra("idx", position+1);
+                startActivity(i);
             }
         });
         listView.setAdapter(adapter);

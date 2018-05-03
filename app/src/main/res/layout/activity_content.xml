@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/cImg"
                 android:src="@drawable/ic_account_circle_black_24dp"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"/>
 
             <TextView
+                android:id="@+id/cName"
                 android:text="작성자"
                 android:textSize="25dp"
                 android:layout_width="wrap_content"
@@ -44,6 +46,7 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="축구"
+                android:id="@+id/cHobby"
                 android:padding="5dp"
                 android:textSize="20dp"
                 android:background="@drawable/border"
@@ -74,6 +77,7 @@
                 android:text="대림대학교 운동장"
                 android:padding="5dp"
                 android:textSize="18dp"
+                android:id="@+id/cplace"
                 android:background="@drawable/border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -87,6 +91,7 @@
                 android:text="2018.5.12 / 13시\n상대 11명\n\n"
                 android:padding="5dp"
                 android:textSize="16dp"
+                android:id="@+id/cdetail"
                 android:background="@drawable/border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
