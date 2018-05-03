@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:configChanges="orientation|keyboardHidden"
     android:theme="@android:style/Theme.NoTitleBar"
-    tools:context="com.example.topping.topping.IntroActivity">
+    tools:context="com.example.topping.topping.Activitys.IntroActivity">
 
     <ImageView
         android:src="@drawable/topping_icon"

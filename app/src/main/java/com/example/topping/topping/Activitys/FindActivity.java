@@ -1,10 +1,12 @@
-package com.example.topping.topping;
+package com.example.topping.topping.Activitys;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.topping.topping.R;
 
 public class FindActivity extends AbstractActivity implements View.OnClickListener {
     private Button submitBtn;

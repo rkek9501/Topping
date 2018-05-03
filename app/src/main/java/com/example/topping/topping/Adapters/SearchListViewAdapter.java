@@ -1,4 +1,4 @@
-package com.example.topping.topping;
+package com.example.topping.topping.Adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.topping.topping.R;
+import com.example.topping.topping.SearchListViewItem;
 
 import java.util.ArrayList;
 import java.util.Date;
