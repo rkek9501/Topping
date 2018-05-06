@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.topping.topping.DownloadImageTask;
 import com.example.topping.topping.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.soyu.soyulib.soyuHttpTask;
@@ -61,6 +62,7 @@ public class MainActivity extends AbstractActivity
         logoutBtn.setOnClickListener(this);
         fab.setOnClickListener(this);
 
+        Log.e("handler : ", handler+"");
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/index.php","");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -80,7 +82,10 @@ public class MainActivity extends AbstractActivity
         ImageView googleImg = (ImageView)view.findViewById(R.id.googleImg);
         googleId.setText(user.getDisplayName());
         googleEmail.setText(user.getEmail());
-        googleImg.setImageURI(user.getPhotoUrl());
+//        googleImg.setImageURI(user.getPhotoUrl());
+
+        new DownloadImageTask(googleImg)
+                .execute(String.valueOf(user.getPhotoUrl()));
 
         navigationView.setNavigationItemSelectedListener(this);
 

@@ -5,20 +5,21 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/show_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/show"
-        android:textColor="@android:color/black"
-        android:textSize="14sp" />
+
     <Button
         android:id="@+id/select_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/select_all"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+    <Button
+        android:id="@+id/show_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/show"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
 </LinearLayout>

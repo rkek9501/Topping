@@ -13,12 +13,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.SearchListViewAdapter;
-import com.example.topping.topping.SelectDB;
 import com.example.topping.topping.R;
+import com.soyu.soyulib.soyuHttpTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.StringTokenizer;
 
 public class SearchActivity extends AbstractActivity {
     private String Tag = "SearchActivity";
@@ -51,8 +53,8 @@ public class SearchActivity extends AbstractActivity {
 //        View listitem = View.inflate(getApplicationContext(), R.layout.listview_item, container);
 
         listView = (ListView) findViewById(R.id.searchListview);
-        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
-
+//        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
+        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,6 +62,7 @@ public class SearchActivity extends AbstractActivity {
                 startActivity(new Intent(getApplicationContext(), ContentActivity.class));
             }
         });
+
         listView.setAdapter(adapter);
 
     }
@@ -76,10 +79,17 @@ public class SearchActivity extends AbstractActivity {
     }
 
     void doJSONParser(String str) {
-        StringBuffer sb = new StringBuffer();
+        StringTokenizer tokens = new StringTokenizer(str);
 
+        String url = tokens.nextToken("|");
+        String data = tokens.nextToken("|").toString();
+
+        Log.e(Tag +" url", url);
+        Log.e(Tag +" data", data);
+
+        loginCheck = data.trim().toString();
         try {
-            JSONArray jarray = new JSONArray(str);   // JSONArray 생성
+            JSONArray jarray = new JSONArray(data);   // JSONArray 생성
             userMail = new String[jarray.length()];
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
@@ -90,6 +100,7 @@ public class SearchActivity extends AbstractActivity {
                 String fromDate = jObject.getString("fromDate");
 
                 adapter.addItem(null, userMail[i], hobby, fromDate);
+                Log.e("JSON",index+", "+userMail[i]+", "+hobby+", "+fromDate);
             }
         } catch (JSONException e) {
             e.printStackTrace();

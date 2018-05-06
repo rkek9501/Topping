@@ -1,17 +1,18 @@
 package com.example.topping.topping.Activitys;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.topping.topping.SelectDB;
-import com.example.topping.topping.InsertDB;
 import com.example.topping.topping.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -26,17 +27,22 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.soyu.soyulib.soyuHttpTask;
+
+import java.util.StringTokenizer;
 
 public class LoginActivity extends AbstractActivity implements GoogleApiClient.OnConnectionFailedListener {
     private String Tag = "LoginActivity";
     private static final int RC_SIGN_IN = 10;
+    Handler logingHandler = new MessageHandler();
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    Handler handler = new LoginHandler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("GoogleLoginCheck", "1. onCreate");
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
@@ -56,75 +62,84 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("GoogleLoginCheck", "8. loginBtn Click " );
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
-//                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Log.e("GoogleLoginCheck", "3. mAuthListener");
                 user = firebaseAuth.getCurrentUser();
-
                 if(user!=null){
+                    Log.e("GoogleLoginCheck", "4. mAuthListener User");
                     userMail = user.getEmail();
                     userName = user.getDisplayName();
-
-                    InsertDB task =new InsertDB(userMail,userName);
-                    task.execute(userMail, userName);
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    LoginCheck(userMail);
-                    finish();
+                    new soyuHttpTask(logingHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/loginCheck.php", "userMail="+userMail, "");
+                    logingHandler.postDelayed(new Runnable() {
+                        //LoginCheck 메소드를 1초후 실행
+                        @Override
+                        public void run() {
+                            LoginCheck();
+                        }
+                    }, 1000);
                 }else{
-
+                    Log.e("GoogleLoginCheck", "4. mAuthListener User Null");
                 }
+
             }
         };
     }
-    public void LoginCheck(String userMail){
-        String type = "login";
-        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/login.php", userMail.toString());
-
-//        SelectDB backgroundWorker = new SelectDB(this);
-//        backgroundWorker.execute(type,userMail);
-    }
-
-
-
-    private class LoginHandler extends Handler {
+    private class MessageHandler extends Handler {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg){
             super.handleMessage(msg);
-            String data = msg.obj.toString();
-            Log.e(Tag, "obj = " + msg.obj.toString());
-
-            loginJSONParser(data);
+            Log.e("GoogleLoginCheck", "6. MessagHandler");
+            Log.e(Tag, "obj = "+msg.obj.toString());
+            loginCheckPaser(msg.obj.toString());
         }
     }
-    void loginJSONParser(String data) {
-        StringBuffer sb = new StringBuffer();
-        userMail = data;
-        /*try {
-            JSONArray jarray = new JSONArray(data);   // JSONArray 생성
+    void loginCheckPaser(String result) {
+        Log.e("GoogleLoginCheck", "7. loginCheckPaser");
+        StringTokenizer tokens = new StringTokenizer(result);
 
-            *//*for (int i = 0; i < jarray.length(); i++) {
-                JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                userMail = jObject.getString("userMail");
-            }*//*
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
+        String url = tokens.nextToken("|");
+        String data = tokens.nextToken("|");
+
+        Log.e("url", url);
+        Log.e("data", data);
+
+        loginCheck = data.trim().toString();
+    }
+    boolean LoginCheck;
+    public void LoginCheck(){
+        Log.e("GoogleLoginCheck", "5. Login Cheek");
+        if (loginCheck.equals("loginOK")){
+            Log.e("GoogleLoginCheck", "5. Login Cheek Success");
+            Log.e("login", "success");
+            LoginCheck=true;
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            Toast.makeText(LoginActivity.this, "로그인 되었습니다. LoginCheck", Toast.LENGTH_SHORT).show();
+            finish();
+        }else{
+            Log.e("GoogleLoginCheck", "5. Login Cheek Failed");
+            Log.e("login", "failed");
+            LoginCheck=false;
+            startActivity(new Intent(getApplicationContext(), HobbyActivity.class));
+        }
     }
     @Override
     protected void onStart() {
         super.onStart();
+        Log.e("GoogleLoginCheck", "2. onStart");
         mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.e("GoogleLoginCheck", "onStop");
         if(mAuthListener != null){
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -133,11 +148,12 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.e("GoogleLoginCheck", "9. onActivityResult");
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
+                Log.e("GoogleLoginCheck", "10. onActivityResult isSuccess");
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
@@ -148,7 +164,7 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
+        Log.e("GoogleLoginCheck", "11. FirebaseAuthWithGoogle");
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -157,8 +173,9 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
                 // the auth state listener will be notified and logic to handle the
                 // signed in user can be handled in the listener.
                 if (!task.isSuccessful()) {
-
+                    Log.e("GoogleLoginCheck", "FirebaseAuthWithGoogle isNotScucees");
                 }else {
+                    Log.e("GoogleLoginCheck", "12. FirebaseAuthWithGoogle isScucees");
                     Toast.makeText(LoginActivity.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -167,6 +184,6 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.e("GoogleLoginCheck", "onConnectionFailed");
     }
 }

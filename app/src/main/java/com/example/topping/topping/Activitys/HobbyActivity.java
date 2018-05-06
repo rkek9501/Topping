@@ -1,28 +1,42 @@
 package com.example.topping.topping.Activitys;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.GridViewAdapter;
 import com.example.topping.topping.R;
+import com.soyu.soyulib.soyuHttpTask;
 
 import java.util.ArrayList;
 
-public class HobbyActivity extends AppCompatActivity {
+public class HobbyActivity extends AbstractActivity {
+    private String Tag = "HobbyActivity";
     private Context context;
     GridViewAdapter adapter;
     private ArrayList<String> arrayList;
 
     private Button selectButton;
-    RelativeLayout container;
+    LinearLayout container;
 
+    Handler handler = new MessageHandler();
+    String selectedItem;
+    private static final String[] text = new String[]{
+            "사진", "농구", "농구", "자전거", "캠핑",
+            "캠핑", "사진", "기타", "영화", "피아노"};
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
@@ -34,7 +48,7 @@ public class HobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hobby);
 
-        container = (RelativeLayout)findViewById(R.id.activity_hobby);
+        container = (LinearLayout)findViewById(R.id.activity_hobby);
         selectButton = (Button) container.findViewById(R.id.select_button);
 
         loadGridView(container);
@@ -43,9 +57,9 @@ public class HobbyActivity extends AppCompatActivity {
     private void loadGridView(View view) {
         GridView gridView = (GridView) view.findViewById(R.id.grid_view);
         arrayList = new ArrayList<>();
-        /*for (int i = 0; i <10; i++) {
-            arrayList.add("GridView Items " + i);
-        }*/
+        for (int i = 0; i <10; i++) {
+            arrayList.add(text[i]);
+        }
         adapter = new GridViewAdapter(context, false);
         gridView.setAdapter(adapter);
     }
@@ -67,10 +81,18 @@ public class HobbyActivity extends AppCompatActivity {
                             String selectedRowLabel = arrayList.get(selectedRows.keyAt(i));
 
                             //append the row label text
-                            stringBuilder.append(selectedRowLabel + "\n");
+                            if(i == (selectedRows.size()-1)) {
+                                stringBuilder.append(selectedRowLabel);
+                            }else {
+                                stringBuilder.append(selectedRowLabel + ", ");
+                            }
                         }
                     }
-                    Toast.makeText(context, "Selected Rows\n" + stringBuilder.toString(), Toast.LENGTH_SHORT).show();
+                    selectedItem = stringBuilder.toString();
+                    Toast.makeText(context, "Selected Rows\n" + selectedItem, Toast.LENGTH_SHORT).show();
+                    new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/loginTest.php",
+                            "userMail=" + user.getEmail() + "&userName=" + user.getDisplayName() + "&userHobby=" + selectedItem + "&userImg="+ user.getPhotoUrl(), "");
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
 
             }
@@ -96,6 +118,13 @@ public class HobbyActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private class MessageHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            Log.e(Tag, "obj = "+msg.obj.toString());
+        }
     }
 }

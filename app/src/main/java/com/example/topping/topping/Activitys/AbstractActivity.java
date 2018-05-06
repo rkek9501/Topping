@@ -18,7 +18,8 @@ public class AbstractActivity extends AppCompatActivity {
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public String userMail;
     public String userName;
-
+    public String userImg;
+    public static String loginCheck;
 
 
     @Override
@@ -27,6 +28,7 @@ public class AbstractActivity extends AppCompatActivity {
         if(user!=null){
             userMail = user.getEmail();
             userName = user.getDisplayName();
+//            userImg = setImageURI(user.getPhotoUrl());
         }else{
 
         }

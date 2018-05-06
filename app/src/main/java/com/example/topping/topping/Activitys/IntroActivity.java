@@ -1,15 +1,21 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.topping.topping.R;
+import com.soyu.soyulib.soyuHttpTask;
+
+import java.util.StringTokenizer;
 
 public class IntroActivity extends AbstractActivity {
-
+    private String Tag = "IntroActivity";
+//    Handler logingHandler = new MessageHandler();
     Handler handler = new Handler();
     Runnable r = new Runnable() {
         @Override
@@ -27,7 +33,14 @@ public class IntroActivity extends AbstractActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
+
+//        new soyuHttpTask(logingHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/loginCheck.php", "userMail="+userMail, "");
+
     }
+
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -41,4 +54,5 @@ public class IntroActivity extends AbstractActivity {
         // 화면을 벗어나면, handler 에 예약해놓은 작업 취소
         handler.removeCallbacks(r); // 예약 취소
     }
+
 }
