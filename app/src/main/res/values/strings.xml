@@ -10,4 +10,70 @@
     <string name="show">확인</string>
     <string name="deselect_all">전체선택 해제</string>
     <string name="select_all">전체선택</string>
+
+    <array name="category1">
+        <item>운동</item>
+        <item>여행</item>
+        <item>공부</item>
+        <item>영화</item>
+        <item>미술</item>
+        <item>음악</item>
+        <item>ect.</item>
+    </array>
+
+    <array name="sport">
+        <item>농구</item>
+        <item>축구</item>
+        <item>보드</item>
+        <item>수영</item>
+        <item>자전거</item>
+        <item>골프</item>
+        <item>스키</item>
+        <item>베드민턴</item>
+    </array>
+
+    <array name="travel">
+        <item>등산</item>
+        <item>바닷가</item>
+        <item>해외여행</item>
+        <item>캠핑</item>
+    </array>
+
+    <array name="study">
+        <item>영어</item>
+        <item>중국어</item>
+        <item>일본어</item>
+    </array>
+
+    <array name="movie">
+        <item>액션</item>
+        <item>SF</item>
+        <item>로맨스</item>
+        <item>공포</item>
+    </array>
+
+    <array name="art">
+        <item>전시회</item>
+        <item>회화</item>
+        <item>공예</item>
+        <item>서예</item>
+    </array>
+
+    <array name="music">
+        <item>밴드</item>
+        <item>기타</item>
+        <item>드럼</item>
+        <item>피아노</item>
+        <item>바이올린</item>
+    </array>
+
+    <array name="ect">
+        <item>보드개임</item>
+        <item>온라인게임</item>
+        <item>사진</item>
+        <item>독서</item>
+        <item>바둑</item>
+        <item>공동구매</item>
+    </array>
+
 </resources>
