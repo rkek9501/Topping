@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ListView
-        android:id="@+id/memberWrite"
+        android:id="@+id/member_write_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <View
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"/>
     <ListView
-        android:id="@+id/memberAfter"
+        android:id="@+id/member_after_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
