@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@drawable/main01"
     tools:context="com.example.topping.topping.Activitys.SearchActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,9 +17,10 @@
 
         <EditText
             android:id="@+id/main_editText"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="50dp"
-            android:text="Hello World!"
+            android:hint="Hello World!"
+            android:singleLine="true"
             android:background="@drawable/border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
