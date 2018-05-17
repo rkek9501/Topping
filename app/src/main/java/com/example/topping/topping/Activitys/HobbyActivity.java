@@ -46,7 +46,7 @@ public class HobbyActivity extends AppCompatActivity {
         /*for (int i = 0; i <10; i++) {
             arrayList.add("GridView Items " + i);
         }*/
-        adapter = new GridViewAdapter(context, false);
+        adapter = new GridViewAdapter(context,/* arrayList,*/ false);
         gridView.setAdapter(adapter);
     }
     private void onClickEvent(View view) {

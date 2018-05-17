@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.SearchListViewAdapter;
-import com.example.topping.topping.SelectDB;
+import com.example.topping.topping.BackgroundWorker;
 import com.example.topping.topping.R;
 
 import org.json.JSONArray;
@@ -29,7 +29,6 @@ public class SearchActivity extends AbstractActivity {
     private ListView listView;
     Handler handler = new SearchHandler();
     SearchListViewAdapter adapter = new SearchListViewAdapter();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class SearchActivity extends AbstractActivity {
 //        View listitem = View.inflate(getApplicationContext(), R.layout.listview_item, container);
 
         listView = (ListView) findViewById(R.id.searchListview);
-        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
+        new BackgroundWorker(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

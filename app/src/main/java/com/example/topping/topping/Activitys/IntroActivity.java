@@ -3,7 +3,6 @@ package com.example.topping.topping.Activitys;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.topping.topping.R;
@@ -27,6 +26,7 @@ public class IntroActivity extends AbstractActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
+
     }
     @Override
     protected void onResume() {
