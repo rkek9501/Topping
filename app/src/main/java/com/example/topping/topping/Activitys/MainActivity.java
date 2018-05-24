@@ -1,6 +1,7 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.DownloadImageTask;
+import com.example.topping.topping.NotifiyDialog;
 import com.example.topping.topping.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.soyu.soyulib.soyuHttpTask;
@@ -52,6 +54,14 @@ public class MainActivity extends AbstractActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("user",user.getEmail());
+//        editor.remove("user");
+        editor.commit();
+
+
 
         editText = (EditText)findViewById(R.id.main_editText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
@@ -116,8 +126,9 @@ public class MainActivity extends AbstractActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.notification) {
+            NotifiyDialog dialog = new NotifiyDialog();
+            dialog.show(getSupportFragmentManager(),"dialog");
         }
 
         return super.onOptionsItemSelected(item);
@@ -164,5 +175,8 @@ public class MainActivity extends AbstractActivity
             super.handleMessage(msg);
             Log.e(Tag, "obj = "+msg.obj.toString());
         }
+    }
+    void NotificationSetting(){
+
     }
 }
