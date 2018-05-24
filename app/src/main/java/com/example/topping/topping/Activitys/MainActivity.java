@@ -49,6 +49,7 @@ public class MainActivity extends AbstractActivity
     Handler handler = new MessageHandler();
     FloatingActionButton fab;
     Button logoutBtn;
+    String edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class MainActivity extends AbstractActivity
 
 
 
-        editText = (EditText)findViewById(R.id.main_editText);
+        editText = (EditText)findViewById(R.id.mainEditText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
         logoutBtn = (Button)findViewById(R.id.log_out);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -158,7 +159,11 @@ public class MainActivity extends AbstractActivity
     @Override
     public void onClick(View v) {
         if(v==findBtn){
-            startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+//            edit = ;
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby",String.valueOf(editText.getText()));
+            startActivity(intent);
+
         }else if(v==fab){
             startActivity(new Intent(getApplicationContext(), FindActivity.class));
         }else if(v==logoutBtn){

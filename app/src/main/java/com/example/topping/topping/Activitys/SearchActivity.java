@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.SearchListViewAdapter;
@@ -54,7 +55,11 @@ public class SearchActivity extends AbstractActivity {
 
         listView = (ListView) findViewById(R.id.searchListview);
 //        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
-        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
+        Intent intent = getIntent();
+        String get = intent.getStringExtra("hobby" );
+        Log.e("get", get+"");
+
+        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "hobby="+get,"");
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
