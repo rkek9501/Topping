@@ -15,7 +15,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="560dp"
-        android:background="@drawable/main01" />
+        android:background="@color/colorAccent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
 
             <EditText
                 android:id="@+id/mainEditText"
-                android:layout_width="200dp"
+                android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:hint="Hello World!"
                 android:singleLine="true"
@@ -45,157 +45,127 @@
 
             <Button
                 android:id="@+id/main_find_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Find"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:background="@color/colorPrimary"/>
+                android:background="@drawable/searchbtn"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_alignBaseline="@+id/s"
+            android:gravity="center">
 
-            android:layout_marginBottom="1dp">
-            <TextView
-                android:text="인기 카테고리"
-                android:layout_marginHorizontal="30dp"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="horizontal"
+                android:weightSum="2">
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@color/sportcolor"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="20dp">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="10dp">
-                        <ImageView
-                            android:id="@+id/image01"
-                            android:background="@drawable/e"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp" />
-                        <TextView
-                            android:text="운동"
-                            android:textSize="15dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="10dp">
-
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/t" />
-                        <TextView
-                            android:text="여행"
-                            android:textSize="15dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="10dp">
-
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/m" />
-                        <TextView
-                            android:text="영화"
-                            android:textSize="15dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/sport" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="10dp">
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@color/travelcolor"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="20dp">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/song" />
-                        <TextView
-                            android:text="음악"
-                            android:textSize="15dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/airport" />
                 </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="10dp">
+            </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/p" />
-                        <TextView
-                            android:text="사진"
-                            android:textSize="15dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@color/musiccolor"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="20dp">
 
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/music" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@color/moviecolor"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/moviepic" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@color/moviecolor"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/photo" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="@color/sportcolor"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/smile" />
+                </LinearLayout>
             </LinearLayout>
 
 
-
-
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="10dp">
-                <ImageView
-                    android:background="@drawable/main_study"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
-                <TextView
-                    android:text="여행"
-                    android:textSize="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>-->
-
         </LinearLayout>
-    </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>
 
