@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class AbstractActivity extends AppCompatActivity {
     public FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    public String userMail;
+    public static String userMail;
     public String userName;
     public String userImg;
     public static String loginCheck;

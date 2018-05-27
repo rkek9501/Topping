@@ -36,7 +36,7 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
     MemberWriteListViewAdapter adapter;
     Handler handler = new ListviewHandler();
 
-    private int index;
+    private static int[] index;
     private String mail, name, userHobby, img;
     private String hobby;
     private String hobbyDetail;
@@ -62,8 +62,12 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "index : " +index + ", position : " +(position), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), ContentActivity.class));
+                //새로운 페이지 연결
+                /*Toast.makeText(getContext(), "index : " +index + ", position : " +(position), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), ContentActivity.class);
+                int sendIndex = index[position];
+                intent.putExtra("index",sendIndex);
+                startActivity(intent);*/
             }
         });
         return view;
@@ -98,7 +102,7 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
         String row = tokens.nextToken("|").toString();
         try {
             JSONArray jarray = new JSONArray(row);   // JSONArray 생성
-//            index = new int[jarray.length()];
+            index = new int[jarray.length()];
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
@@ -106,7 +110,7 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
                 name = jObject.getString("U.userName");
                 userHobby = jObject.getString("U.userHobby");
                 img = jObject.getString("U.userImg");
-                index = jObject.getInt("W.index");
+                index[i] = jObject.getInt("W.index");
                 hobby = jObject.getString("W.hobby");
                 hobbyDetail = jObject.getString("W.hobbyDetail");
                 participant = jObject.getString("W.participant");
