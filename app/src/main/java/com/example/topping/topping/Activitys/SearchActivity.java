@@ -52,9 +52,10 @@ public class SearchActivity extends AbstractActivity {
 //        LinearLayout container = (LinearLayout) findViewById(R.id.searchParent);
 //        View listitem = View.inflate(getApplicationContext(), R.layout.listview_item, container);
 
+        String sport="운동";
         listView = (ListView) findViewById(R.id.searchListview);
 //        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
-        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
+        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "hobby="+sport,"");
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -1,17 +1,12 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
-
-import java.util.StringTokenizer;
 
 public class IntroActivity extends AbstractActivity {
     private String Tag = "IntroActivity";
@@ -45,7 +40,7 @@ public class IntroActivity extends AbstractActivity {
     protected void onResume() {
         super.onResume();
         // 다시 화면에 들어어왔을 때 예약 걸어주기
-        handler.postDelayed(r, 3000); // 3초 뒤에 Runnable 객체 수행
+        handler.postDelayed(r, 2000); // 2초 뒤에 Runnable 객체 수행
     }
 
     @Override

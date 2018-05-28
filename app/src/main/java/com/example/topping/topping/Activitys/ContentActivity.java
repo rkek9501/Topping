@@ -21,9 +21,6 @@ import com.example.topping.topping.DownloadImageTask;
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
 
-import net.daum.mf.map.api.MapView;
-import net.daum.android.map.MapViewEventListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-public class ContentActivity extends AbstractActivity implements View.OnClickListener, MapViewEventListener {
+public class ContentActivity extends AbstractActivity implements View.OnClickListener {
     private String Tag = "ContentActivity";
     private Button requestBtn, changeBtn;
     private TextView title, date, time, detail, place;
@@ -121,11 +118,6 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             }
         });
         builder.create().show();
-    }
-
-    @Override
-    public void onLoadMapView() {
-
     }
 
     private class ContentHandler extends Handler {
