@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.topping.topping.Adapters.HorizontalListViewAdapter;
-import com.example.topping.topping.DownloadImageTask;
+import com.example.topping.topping.GoogleMapFragment;
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
 
@@ -25,10 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.StringTokenizer;
 
 public class ContentActivity extends AbstractActivity implements View.OnClickListener {
@@ -42,6 +40,9 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
 //    private static String[] userMail;
     int get;
     Handler handler = new ContentHandler();
+
+    private ViewGroup mapLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,16 +60,14 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         changeBtn = (Button)findViewById(R.id.changeBtn);
         requestBtn.setOnClickListener(this);
         changeBtn.setOnClickListener(this);
-
-//        MapView mapView = new MapView(this);
-//        net.daum.mf.map.api.MapView mapView = new net.daum.mf.map.api.MapView(this);
-
-//        RelativeLayout mapViewContainer = (RelativeLayout) findViewById(R.id.map_view);
-//        mapViewContainer.addView(mapView);
-//        mapView.setMapViewEventListener(this); // this에 MapView.MapViewEventListener 구현.
-//        mapView.setPOIItemEventListener(this);
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
 
+        GoogleMapFragment fragment = new GoogleMapFragment();
+        fragment.setArguments(new Bundle());
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.fragmentHere, fragment);
+        transaction.commit();
     }
 
     @Override
