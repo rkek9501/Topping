@@ -80,8 +80,8 @@ public class MemberActivity extends AbstractActivity {
         @Override
         public void handleMessage(Message msg){
             super.handleMessage(msg);
-//            Log.e(Tag, "obj = "+msg.obj.toString());
-//            Log.e(Tag, "userMail = "+user.getEmail());
+            Log.e(Tag, "obj = "+msg.obj.toString());
+            Log.e(Tag, "userMail = "+user.getEmail());
             doMemberJSONParser(msg.obj.toString());
         }
     }
@@ -97,8 +97,8 @@ public class MemberActivity extends AbstractActivity {
         String url = tokens.nextToken("|");
         String row = tokens.nextToken("|").toString();
 
-//        Log.e(Tag +" url", url);
-//        Log.e(Tag +" data", row);
+        Log.e(Tag +" url", url);
+        Log.e(Tag +" data", row);
 
         String data = row.trim().toString();
         try {
