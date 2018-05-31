@@ -203,6 +203,7 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
 
                 Toast.makeText(getApplicationContext(),"글이 등록 되었습니다.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                finish();
             }
         });
 //        builder.setNegativeButton("아니오", null);

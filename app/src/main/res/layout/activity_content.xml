@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="20dp">
+        android:padding="20dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,19 +37,22 @@
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="left"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="0.5dp"
             android:background="@color/linecolor"/>
+=======
+            android:layout_height="@dimen/view_line"
+            android:background="@color/appbar"/>
+>>>>>>> doyoungM1
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="10dp">
             <TextView
                 android:id="@+id/content_date"
@@ -61,13 +64,17 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="0.5dp"
             android:background="@color/linecolor"/>
+=======
+            android:layout_height="@dimen/view_line"
+            android:background="@color/appbar"/>
+>>>>>>> doyoungM1
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="10dp">
             <TextView
                 android:id="@+id/content_time"
@@ -79,13 +86,17 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="0.5dp"
             android:background="@color/linecolor"/>
+=======
+            android:layout_height="@dimen/view_line"
+            android:background="@color/appbar"/>
+>>>>>>> doyoungM1
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="10dp">
             <TextView
                 android:text="Member"
@@ -93,22 +104,26 @@
                 android:textColor="@color/textcolor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <GridLayout
-                android:id="@+id/content_member"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </GridLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView"
+                android:orientation="horizontal">
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="0.5dp"
             android:background="@color/linecolor"/>/>
+=======
+            android:layout_height="@dimen/view_line"
+            android:background="@color/appbar"/>
+>>>>>>> doyoungM1
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp">
             <TextView
                 android:text="Detail"
@@ -127,14 +142,19 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="0.5dp"
             android:background="@color/linecolor"/>
+=======
+            android:layout_height="@dimen/view_line"
+            android:background="@color/appbar"/>
+>>>>>>> doyoungM1
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp">
+<<<<<<< HEAD
 
                 <TextView
                     android:text="Place"
@@ -153,6 +173,24 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="100dp" />
+=======
+            <TextView
+                android:text="Place"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/content_place"
+                android:text="장소"
+                android:textSize="12dp"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:id="@+id/fragmentHere"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+>>>>>>> doyoungM1
         </LinearLayout>
     </LinearLayout>
 
@@ -174,7 +212,11 @@
                 android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:background="@color/colorAccent" />
+=======
+                android:background="@color/appbar" />
+>>>>>>> doyoungM1
             <Button
                 android:id="@+id/changeBtn"
                 android:visibility="gone"
