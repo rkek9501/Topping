@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 
 public class FindActivity extends AbstractActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
@@ -36,9 +38,9 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
     private Button submitBtn;
     private Spinner category1,category2;
 
-    private EditText place, detail;
+    private EditText detail;
     private LinearLayout dateFrom, dateTo;
-    private TextView dateFromTime,dateFromDate, dateToTime, dateToDate;
+    private TextView place, dateFromTime,dateFromDate, dateToTime, dateToDate;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
 
@@ -53,6 +55,7 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
     private AlertDialog.Builder builder;
     private Handler handler = new MessageHandler();
 
+    private int REQUEST_TEST = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +72,7 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
         submitBtn = (Button)findViewById(R.id.submitBtn);
         category1 = (Spinner)findViewById(R.id.category1);
         category2 = (Spinner)findViewById(R.id.category2);
-        place = (EditText)findViewById(R.id.place);
+        place = (TextView)findViewById(R.id.place);
         detail = (EditText)findViewById(R.id.detail);
         checkBox = (CheckBox)findViewById(R.id.dateCheckBox);
 
@@ -133,7 +136,27 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
                 }
             }
         };
+        place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getApplicationContext(),MapActivity.class), REQUEST_TEST);
+//                startActivity(new Intent(getApplicationContext(),MapActivity.class));
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_TEST) {
+            if(resultCode == RESULT_OK) {
+                place.setText(data.getStringExtra("result"));
+            }else {
+                place.setText("request fail");
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
