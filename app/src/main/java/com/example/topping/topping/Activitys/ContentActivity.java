@@ -62,12 +62,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         changeBtn.setOnClickListener(this);
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
 
-        GoogleMapFragment fragment = new GoogleMapFragment();
-        fragment.setArguments(new Bundle());
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.add(R.id.fragmentHere, fragment);
-        transaction.commit();
+
     }
 
     @Override
@@ -159,6 +154,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
 
                     timePaser(fromDate, toDate);
                     memberPaser(members, participant);
+                    MapSetting(place);
 
                     this.title.setText(hobby+"/"+hobbyDetail);
                     this.detail.setText(detail);
@@ -202,6 +198,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
 
     }
     private void memberPaser(String members, int participant){
+        Log.e("content2",members+", "+participant);
         StringTokenizer tokens = new StringTokenizer(members);
         String member[] = new String[participant];
         String returnString="";
@@ -239,5 +236,15 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         recyclerView.setLayoutManager(layoutManager);
         HorizontalListViewAdapter adapter = new HorizontalListViewAdapter(this, mNames, mImageUrls);
         recyclerView.setAdapter(adapter);
+    }
+    private void MapSetting(String place){
+        GoogleMapFragment fragment = new GoogleMapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("Place", place);
+        fragment.setArguments(bundle);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.fragmentHere, fragment);
+        transaction.commit();
     }
 }
