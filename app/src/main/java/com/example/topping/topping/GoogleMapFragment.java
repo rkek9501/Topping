@@ -4,6 +4,8 @@ package com.example.topping.topping;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -50,6 +52,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 
@@ -58,6 +61,7 @@ import java.util.Map;
  */
 public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private GoogleMap mMap;
+    private Geocoder geocoder;
 
     private static final String TAG = Map.class.getSimpleName();
     private CameraPosition mCameraPosition;
@@ -90,10 +94,18 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     private LatLng[] mLikelyPlaceLatLngs;
 
     MapView mapView;
+    String mPlace;
     public GoogleMapFragment() {
         // Required empty public constructor
     }
 
+    public static GoogleMapFragment newInstance(String place){
+        GoogleMapFragment fragment = new GoogleMapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("Place", place);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +119,7 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        mPlace =;
         View view = inflater.inflate(R.layout.fragment_google_map, container, false);
         if (savedInstanceState != null) {
             currentLocation
@@ -147,8 +160,31 @@ public class GoogleMapFragment extends Fragment implements OnMapReadyCallback, G
 
         mMap.setOnInfoWindowClickListener((GoogleMap.OnInfoWindowClickListener) this);
 
-        CameraPosition position = new CameraPosition.Builder().target(new LatLng(37.39444, 126.95556)).zoom(12).build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+        geocoder = new Geocoder(getContext());
+        List<Address> addressList = null;
+
+        try {
+            addressList = geocoder.getFromLocationName(getArguments().getString("Place").toString(),1);
+            Double latitude = addressList.get(0).getLatitude(); // 위도
+            Double longitude = addressList.get(0).getLongitude(); // 경도
+
+            LatLng point = new LatLng(latitude,longitude);
+            String realAddr = addressList.get(0).getAddressLine(0);
+            // 마커 생성
+            MarkerOptions mOptions2 = new MarkerOptions();
+            mOptions2.title(mPlace).snippet(realAddr).position(point);
+            // 마커 추가
+            mMap.addMarker(mOptions2);
+            // 해당 좌표로 화면 줌
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
+
+            /*CameraPosition position = new CameraPosition.Builder().target(new LatLng(latitude,longitude).zoom(12).build());
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));*/
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         // GoogleMap 에 마커클릭 이벤트 설정 가능.
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

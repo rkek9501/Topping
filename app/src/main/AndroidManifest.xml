@@ -67,16 +67,20 @@
         </activity>
         <activity
             android:name=".Activitys.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
-        <activity android:name=".Activitys.HobbyActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Activitys.HobbyActivity"
             android:parentActivityName=".Activitys.MainActivity"
             android:theme="@style/MyActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
+        <activity android:name=".Activitys.MapActivity"></activity>
     </application>
 
 </manifest>
