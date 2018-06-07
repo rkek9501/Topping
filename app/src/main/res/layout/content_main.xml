@@ -72,6 +72,7 @@
                     android:background="@color/sportcolor"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:id="@+id/sportimg"
                     android:padding="20dp">
 
                     <ImageView
@@ -87,6 +88,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
+                    android:id="@+id/travelimg"
                     android:padding="20dp">
 
                     <ImageView
@@ -110,6 +112,7 @@
                     android:background="@color/musiccolor"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:id="@+id/musicimg"
                     android:padding="20dp">
 
                     <ImageView
@@ -125,6 +128,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
+                    android:id="@+id/moiveimg"
                     android:padding="20dp">
 
                     <ImageView
@@ -146,6 +150,7 @@
                     android:background="@color/moviecolor"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:id="@+id/cameraimg"
                     android:padding="20dp">
 
                     <ImageView

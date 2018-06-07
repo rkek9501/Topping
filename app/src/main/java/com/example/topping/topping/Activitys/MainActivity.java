@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,11 @@ public class MainActivity extends AbstractActivity
     FloatingActionButton fab;
     Button logoutBtn;
     String edit;
+    LinearLayout sportimg;
+    LinearLayout travelimg;
+    LinearLayout musicimg;
+    LinearLayout movieimg;
+    LinearLayout cameraimg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +68,23 @@ public class MainActivity extends AbstractActivity
 //        editor.remove("user");
         editor.commit();
 
-
-
         editText = (EditText)findViewById(R.id.mainEditText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
         logoutBtn = (Button)findViewById(R.id.log_out);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        sportimg = (LinearLayout) findViewById(R.id.sportimg);
+        travelimg = (LinearLayout) findViewById(R.id.travelimg);
+        musicimg = (LinearLayout) findViewById(R.id.musicimg);
+        movieimg = (LinearLayout) findViewById(R.id.moiveimg);
+        cameraimg = (LinearLayout) findViewById(R.id.cameraimg);
 
         findBtn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
+        sportimg.setOnClickListener(this);
+        travelimg.setOnClickListener(this);
+        musicimg.setOnClickListener(this);
+        movieimg.setOnClickListener(this);
+        cameraimg.setOnClickListener(this);
         fab.setOnClickListener(this);
 
         Log.e("handler : ", handler+"");
@@ -171,6 +185,31 @@ public class MainActivity extends AbstractActivity
             Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        }
+        else if(v==sportimg){
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby","운동");
+            startActivity(intent);
+        }
+        else if(v==travelimg){
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby","여행");
+            startActivity(intent);
+        }
+        else if(v==musicimg){
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby","음악");
+            startActivity(intent);
+        }
+        else if(v==movieimg){
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby","영화");
+            startActivity(intent);
+        }
+        else if(v==cameraimg){
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby","사진");
+            startActivity(intent);
         }
     }
 
