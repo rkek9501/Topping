@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,10 +33,12 @@ import java.util.StringTokenizer;
 
 public class ContentActivity extends AbstractActivity implements View.OnClickListener {
     private String Tag = "ContentActivity";
-    private Button requestBtn, changeBtn, cancleBtn;
+    private Button requestBtn, changeBtn, cancleBtn, deleteBtn;
     private TextView title, date, time, detail, place;
+    private LinearLayout writerBtn;
     private AlertDialog.Builder builder;
     private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mMails = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private static int[] index;
     private boolean joinCheck = false;
@@ -73,9 +76,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         requestBtn = (Button)findViewById(R.id.requestBtn);
         changeBtn = (Button)findViewById(R.id.changeBtn);
         cancleBtn = (Button)findViewById(R.id.cancleBtn);
+        deleteBtn = (Button)findViewById(R.id.deleteBtn);
         requestBtn.setOnClickListener(this);
         changeBtn.setOnClickListener(this);
         cancleBtn.setOnClickListener(this);
+        deleteBtn.setOnClickListener(this);
+        writerBtn = (LinearLayout)findViewById(R.id.writerBtn);
 
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
     }
@@ -88,6 +94,8 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             setChangeDialog();
         }else if(v==cancleBtn){
             setCancleDialog();
+        }else if(v==deleteBtn){
+            setDeleteDialog();
         }
     }
 
@@ -125,6 +133,26 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 Intent intent = new Intent(getApplicationContext(), FindActivity.class);
                 intent.putExtra("indexData",indexData);
                 startActivity(intent);
+                finish();
+            }
+        });
+//        builder.setNegativeButton("아니오", null);
+        builder.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
+    }
+    private void setDeleteDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage("내용을 삭제 하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/contentDelete.php","index="+get, "");
                 finish();
             }
         });
@@ -221,6 +249,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                     String userImg = jObject.getString("userImg");
 
                     mImageUrls.add(userImg);
+                    mMails.add(memberMail);
                     mNames.add(userName);
 
                     Log.e("JSON","content2");
@@ -234,13 +263,18 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 Toast.makeText(getApplicationContext(),"매칭 되었습니다.", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getApplicationContext(),"매칭 실패 되었습니다.", Toast.LENGTH_SHORT).show();
-        }
-        if(url.equals("http://61.84.24.188/topping3/getout.php")){
+        }else if(url.equals("http://61.84.24.188/topping3/getout.php")){
             if(data.equals("successGetOut"))
                 Toast.makeText(getApplicationContext(),"매칭 취소가 되었습니다.", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getApplicationContext(),"매칭 취소가 실패 되었습니다.", Toast.LENGTH_SHORT).show();
+        }else if(url.equals("http://61.84.24.188/topping3/contentDelete.php")){
+            if(data.equals("successDelete"))
+                Toast.makeText(getApplicationContext(),"매칭이 삭제 되었습니다.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(),"매칭 삭제가 실패 되었습니다.", Toast.LENGTH_SHORT).show();
         }
+
     }
     private void memberPaser(String members, int participant, String writer) {
         Log.e("content2 aa", members + ", " + participant);
@@ -254,16 +288,21 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             if (i > 0){
                 if(member[i].equals(userMail))
                     CheckMember = member[i];
-                if(!CheckMember.equals(member[i]))
-                    outString += member[i]+",";
-            }else
-                outString += member[i]+",";
+            }
             Log.e("content for + " + i, member[i]);
         }
         for (int i = 0; i < participant; i++) {
             if (i == (participant - 1)) {
+                if (CheckMember!=null) {
+                    if (!CheckMember.equals(member[i]))
+                        outString += member[i] + ",";
+                }
                 returnString += "`userMail`='" + member[i] + "'";
             } else {
+                if (CheckMember!=null) {
+                    if (!CheckMember.equals(member[i]))
+                        outString += member[i] + ",";
+                }
                 returnString += "`userMail`='" + member[i] + "' || ";
             }
         }
@@ -293,7 +332,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        HorizontalListViewAdapter adapter = new HorizontalListViewAdapter(this, mNames, mImageUrls);
+        HorizontalListViewAdapter adapter = new HorizontalListViewAdapter(this, mNames, mImageUrls,mMails);
         recyclerView.setAdapter(adapter);
     }
     private void MapSetting(String place){
@@ -320,17 +359,17 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
     }
     private void setChangeBtn(){
         requestBtn.setVisibility(View.GONE);
-        changeBtn.setVisibility(View.VISIBLE);
+        writerBtn.setVisibility(View.VISIBLE);
         cancleBtn.setVisibility(View.GONE);
     }
     private void setRequestBtn(){
         requestBtn.setVisibility(View.VISIBLE);
-        changeBtn.setVisibility(View.GONE);
+        writerBtn.setVisibility(View.GONE);
         cancleBtn.setVisibility(View.GONE);
     }
     private void setCancleBtn(){
         requestBtn.setVisibility(View.GONE);
-        changeBtn.setVisibility(View.GONE);
+        writerBtn.setVisibility(View.GONE);
         cancleBtn.setVisibility(View.VISIBLE);
     }
 }
