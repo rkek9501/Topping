@@ -30,7 +30,7 @@ public class AbstractActivity extends AppCompatActivity {
     public Date today = Calendar.getInstance().getTime();
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         if(user!=null){
             userMail = user.getEmail();

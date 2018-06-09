@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.HorizontalListViewAdapter;
 import com.example.topping.topping.GoogleMapFragment;
@@ -31,14 +32,27 @@ import java.util.StringTokenizer;
 
 public class ContentActivity extends AbstractActivity implements View.OnClickListener {
     private String Tag = "ContentActivity";
-    private Button requestBtn, changeBtn;
+    private Button requestBtn, changeBtn, cancleBtn;
     private TextView title, date, time, detail, place;
     private AlertDialog.Builder builder;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private static int[] index;
-//    private static String[] userMail;
+    private boolean joinCheck = false;
     int get;
+    private String outString;
+
+    private int indexData;
+    private String userMailData;
+    private String hobbyData;
+    private String hobbyDetailData;
+    private String placeData;
+    private String fromDateData;
+    private String toDateData;
+    private String detailData;
+    private int participantData;
+    private String membersData;
+
     Handler handler = new ContentHandler();
 
     private ViewGroup mapLayout;
@@ -58,11 +72,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         place = (TextView)findViewById(R.id.content_place);
         requestBtn = (Button)findViewById(R.id.requestBtn);
         changeBtn = (Button)findViewById(R.id.changeBtn);
+        cancleBtn = (Button)findViewById(R.id.cancleBtn);
         requestBtn.setOnClickListener(this);
         changeBtn.setOnClickListener(this);
+        cancleBtn.setOnClickListener(this);
+
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
-
-
     }
 
     @Override
@@ -71,6 +86,8 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             setRequsetDialog();
         }else  if(v==changeBtn){
             setChangeDialog();
+        }else if(v==cancleBtn){
+            setCancleDialog();
         }
     }
 
@@ -83,6 +100,10 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             public void onClick(DialogInterface dialog, int which) {
                 Log.e("content3",get +", "+userMail);
                 new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/contentInsert.php","index="+get+"&memberName=, "+userMail, "");
+                Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                intent.putExtra("index",get);
+                startActivity(intent);
+                finish();
             }
         });
 //        builder.setNegativeButton("아니오", null);
@@ -101,7 +122,10 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+                intent.putExtra("indexData",indexData);
+                startActivity(intent);
+                finish();
             }
         });
 //        builder.setNegativeButton("아니오", null);
@@ -113,7 +137,28 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         });
         builder.create().show();
     }
+    private void setCancleDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage("현재 참여중인 매칭에서 나가시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(joinCheck){
+                    new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/getout.php","index="+get+"&members="+outString+"&participant="+(participantData-1), "");
+                    finish();
+                }
 
+            }
+        });
+        builder.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
+    }
     private class ContentHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -141,25 +186,25 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 for (int i = 0; i < jarray.length(); i++) {
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
-                    index[i] = jObject.getInt("index");
-                    String userMail = jObject.getString("userMail");
-                    String hobby = jObject.getString("hobby");
-                    String hobbyDetail = jObject.getString("hobbyDetail");
-                    String place = jObject.getString("place");
-                    String fromDate = jObject.getString("fromDate");
-                    String toDate = jObject.getString("toDate");
-                    String detail = jObject.getString("detail");
-                    int participant = jObject.getInt("participant");
-                    String members = jObject.getString("members");
+                    indexData = jObject.getInt("index");
+                    userMailData = jObject.getString("userMail");
+                    hobbyData = jObject.getString("hobby");
+                    hobbyDetailData = jObject.getString("hobbyDetail");
+                    placeData = jObject.getString("place");
+                    fromDateData = jObject.getString("fromDate");
+                    toDateData = jObject.getString("toDate");
+                    detailData = jObject.getString("detail");
+                    participantData = jObject.getInt("participant");
+                    membersData = jObject.getString("members");
 
-                    timePaser(fromDate, toDate);
-                    memberPaser(members, participant);
-                    MapSetting(place);
+                    timePaser(fromDateData, toDateData);
+                    memberPaser(membersData, participantData, userMailData);
+                    MapSetting(placeData);
 
-                    this.title.setText(hobby+"/"+hobbyDetail);
-                    this.detail.setText(detail);
-                    this.place.setText(place);
-                    Log.e("JSON",index+", "+userMail+", "+hobby+", "+fromDate+", "+place+", "+members+", "+participant);
+                    this.title.setText(hobbyData+"/"+hobbyDetailData);
+                    this.detail.setText(detailData);
+                    this.place.setText(placeData);
+                    Log.e("JSON",indexData+", "+userMailData+", "+hobbyDetailData+", "+fromDateData+", "+place+", "+membersData+", "+participantData);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -171,7 +216,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 for (int i = 0; i < jarray.length(); i++) {
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
-                    String userMail = jObject.getString("userMail");
+                    String memberMail = jObject.getString("userMail");
                     String userName = jObject.getString("userName");
                     String userImg = jObject.getString("userImg");
 
@@ -184,33 +229,47 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 e.printStackTrace();
             }
             initRecyclerView();
+        }else if(url.equals("http://61.84.24.188/topping3/contentInsert.php")){
+            if(data.equals("successInsert"))
+                Toast.makeText(getApplicationContext(),"매칭 되었습니다.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(),"매칭 실패 되었습니다.", Toast.LENGTH_SHORT).show();
+        }
+        if(url.equals("http://61.84.24.188/topping3/getout.php")){
+            if(data.equals("successGetOut"))
+                Toast.makeText(getApplicationContext(),"매칭 취소가 되었습니다.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(),"매칭 취소가 실패 되었습니다.", Toast.LENGTH_SHORT).show();
         }
     }
-    void doJSONParser2(String str) {
-        StringTokenizer tokens = new StringTokenizer(str);
-
-        String url = tokens.nextToken("|").trim().toString();
-        String data = tokens.nextToken("|").toString();
-
-        Log.e(Tag +" url", url);
-        Log.e(Tag +" data", data);
-
-
-    }
-    private void memberPaser(String members, int participant){
-        Log.e("content2",members+", "+participant);
+    private void memberPaser(String members, int participant, String writer) {
+        Log.e("content2 aa", members + ", " + participant);
         StringTokenizer tokens = new StringTokenizer(members);
         String member[] = new String[participant];
-        String returnString="";
-        for (int i=0; i<participant; i++){
+        String returnString = "";
+        outString = "";
+        String CheckMember = null;
+        for (int i = 0; i < participant; i++) {
             member[i] = tokens.nextToken(",").trim().toString();
-            if (i==(participant-1)){
-                returnString +="`userMail`='"+member[i]+"'";
-            }else {
-                returnString +="`userMail`='"+member[i]+"' || ";
+            if (i > 0){
+                if(member[i].equals(userMail))
+                    CheckMember = member[i];
+                if(!CheckMember.equals(member[i]))
+                    outString += member[i]+",";
+            }else
+                outString += member[i]+",";
+            Log.e("content for + " + i, member[i]);
+        }
+        for (int i = 0; i < participant; i++) {
+            if (i == (participant - 1)) {
+                returnString += "`userMail`='" + member[i] + "'";
+            } else {
+                returnString += "`userMail`='" + member[i] + "' || ";
             }
         }
-        Log.e("content2",returnString);
+        WriterCheck(writer,CheckMember);
+
+        Log.e("content2 bb",returnString);
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content2.php","members="+returnString.toString(), "");
     }
     private void timePaser(String from, String to){
@@ -246,5 +305,32 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.fragmentHere, fragment);
         transaction.commit();
+    }
+    private void WriterCheck(String writer, String memberMail){
+        if(userMail.equals(writer)){
+            setChangeBtn();
+        }else if(userMail.equals(memberMail)) {
+            setCancleBtn();
+            if(!writer.equals(memberMail)){
+                joinCheck=true;
+            }
+        }else {
+            setRequestBtn();
+        }
+    }
+    private void setChangeBtn(){
+        requestBtn.setVisibility(View.GONE);
+        changeBtn.setVisibility(View.VISIBLE);
+        cancleBtn.setVisibility(View.GONE);
+    }
+    private void setRequestBtn(){
+        requestBtn.setVisibility(View.VISIBLE);
+        changeBtn.setVisibility(View.GONE);
+        cancleBtn.setVisibility(View.GONE);
+    }
+    private void setCancleBtn(){
+        requestBtn.setVisibility(View.GONE);
+        changeBtn.setVisibility(View.GONE);
+        cancleBtn.setVisibility(View.VISIBLE);
     }
 }
