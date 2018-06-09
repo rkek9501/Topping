@@ -25,12 +25,14 @@
             android:src="@drawable/ic_launcher_background"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:layout_weight="1"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_weight="100">
             <TextView
                 android:id="@+id/memberMail"
                 android:text="아이디 : "
@@ -50,7 +52,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@android:color/darker_gray"
+            android:id="@+id/shineBtn"
+            android:layout_weight="1"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="@android:color/holo_green_dark"
+            app:allow_random_color="false"
+            app:siShape="@raw/smile"
+            app:shine_turn_angle="20"
+            app:shine_count="15"
+            app:enable_flashing="true"/>
     </LinearLayout>
     <TextView
         android:text="최근 등록한 글"
