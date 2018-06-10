@@ -143,7 +143,7 @@ public class MainActivity extends AbstractActivity
         if (id == R.id.member_info) {
             intent = new Intent(getApplicationContext(), MemberActivity.class);
         } else if (id == R.id.like) {
-            intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent = new Intent(getApplicationContext(), FavoritActivity.class);
         } else if (id == R.id.search) {
 
         } else if (id == R.id.write) {

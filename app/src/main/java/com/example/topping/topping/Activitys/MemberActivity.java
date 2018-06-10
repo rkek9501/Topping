@@ -9,7 +9,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,9 +26,11 @@ import org.json.JSONObject;
 
 import java.util.StringTokenizer;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MemberActivity extends AbstractActivity {
     private String Tag = "MemberActivity";
-    private ImageView imageView;
+    private CircleImageView imageView;
     private TextView memberEmail, memberName, memberHobby;
     private ListView memberWrite, memberAfter;
     private MemberWriteListViewAdapter adapter = new MemberWriteListViewAdapter();
@@ -60,7 +61,7 @@ public class MemberActivity extends AbstractActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
 
-        imageView = (ImageView)findViewById(R.id.memberImg);
+        imageView = (CircleImageView)findViewById(R.id.memberImg);
         memberEmail = (TextView)findViewById(R.id.memberMail);
         memberName = (TextView)findViewById(R.id.memberName);
         memberHobby = (TextView)findViewById(R.id.memberHobby);
