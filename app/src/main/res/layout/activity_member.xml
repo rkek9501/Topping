@@ -12,7 +12,7 @@
     <TextView
         android:text="회원정보"
         android:textSize="20dp"
-        android:textColor="balck"
+        android:textColor="@color/blackcolor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
@@ -37,7 +37,7 @@
             <TextView
                 android:id="@+id/memberMail"
                 android:text="아이디 : "
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -51,7 +51,7 @@
             <TextView
                 android:id="@+id/memberName"
                 android:text="이름 : "
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -64,7 +64,7 @@
             <TextView
                 android:id="@+id/memberHobby"
                 android:text="취미 : "
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -80,7 +80,7 @@
     <TextView
         android:text="최근 등록한 글"
         android:textSize="20dp"
-        android:textColor="balck"
+        android:textColor="@color/blackcolor"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

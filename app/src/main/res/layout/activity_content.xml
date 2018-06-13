@@ -24,7 +24,7 @@
             <TextView
                 android:text="매칭 신청"
                 android:textSize="25dp"
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/content_title"
                 android:text="글 제목"
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             <TextView
                 android:id="@+id/content_date"
                 android:text="Date"
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -74,7 +74,7 @@
             <TextView
                 android:id="@+id/content_time"
                 android:text="Time"
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -93,7 +93,7 @@
             <TextView
                 android:text="Member"
                 android:textSize="16dp"
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <android.support.v7.widget.RecyclerView
@@ -117,7 +117,7 @@
             <TextView
                 android:text="Detail"
                 android:textSize="16dp"
-                android:textColor="balck"
+                android:textColor="@color/blackcolor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView

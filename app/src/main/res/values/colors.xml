@@ -11,5 +11,6 @@
     <color name="musiccolor">#FFFFFF</color>
     <color name="moviecolor">#FFD379</color>
     <color name="textcolor">#4D4D4D</color>
+    <color name="blackcolor">#000000</color>
     <color name="appbar">#98D7F9</color>
 </resources>
