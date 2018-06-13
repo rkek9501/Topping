@@ -10,6 +10,7 @@
     <TextView
         android:text="취미를 선택해주세요"
         android:textSize="12dp"
+        android:textColor="balck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
