@@ -43,13 +43,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/view_line"
-                android:background="@color/appbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
-
             <TextView
                 android:id="@+id/memberName"
                 android:text="이름 : "
@@ -58,13 +51,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/view_line"
-                android:background="@color/appbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
-
             <TextView
                 android:id="@+id/memberHobby"
                 android:text="취미 : "
@@ -72,13 +58,6 @@
                 android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/view_line"
-                android:background="@color/appbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
 
         </LinearLayout>
 

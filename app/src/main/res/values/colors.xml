@@ -13,4 +13,5 @@
     <color name="textcolor">#4D4D4D</color>
     <color name="blackcolor">#000000</color>
     <color name="appbar">#98D7F9</color>
+    <color name="floating">#84bdd1</color>
 </resources>
