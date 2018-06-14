@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.SearchListViewAdapter;
@@ -41,6 +40,8 @@ public class SearchActivity extends AbstractActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
+//        getSupportActionBar().
+        getSupportActionBar().setIcon(R.drawable.title);
 
         findBtn = (Button) findViewById(R.id.search_find_btn);
         findBtn.setOnClickListener(new View.OnClickListener() {
