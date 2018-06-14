@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.HorizontalListViewAdapter;
+import com.example.topping.topping.FCM.FCMPush;
 import com.example.topping.topping.GoogleMapFragment;
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
@@ -57,7 +58,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
     private String membersData;
 
     Handler handler = new ContentHandler();
-
+    Handler pushHandler = new PushHandler();
     private ViewGroup mapLayout;
 
     @Override
@@ -107,6 +108,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.e("content3",get +", "+userMail);
+//                new FCMPush(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, )
                 new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/contentInsert.php","index="+get+"&memberName=, "+userMail, "");
                 Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
                 intent.putExtra("index",get);
@@ -203,9 +205,11 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
 
         String url = tokens.nextToken("|").trim().toString();
         String data = tokens.nextToken("|").toString();
+//        String data2 = tokens.nextToken("|").toString();
 
         Log.e(Tag +" url", url);
         Log.e(Tag +" data", data);
+//        Log.e(Tag +" data", data2);
 
         if(url.equals("http://61.84.24.188/topping3/content.php")){
             try {
@@ -259,9 +263,34 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             }
             initRecyclerView();
         }else if(url.equals("http://61.84.24.188/topping3/contentInsert.php")){
-            if(data.equals("successInsert"))
-                Toast.makeText(getApplicationContext(),"매칭 되었습니다.", Toast.LENGTH_SHORT).show();
-            else
+            StringTokenizer getData = new StringTokenizer(data);
+
+            String result = getData.nextToken("#").trim().toString();
+            String result2 = getData.nextToken("#").toString();
+
+            if(result.equals("insertSuccess")) {
+                Toast.makeText(getApplicationContext(), "매칭 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONArray jarray = new JSONArray(result2);   // JSONArray 생성
+                    for (int i = 0; i < jarray.length(); i++) {
+                        JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+
+                        int getIndex = jObject.getInt("W.index");
+                        String getUserMail = jObject.getString("W.userMail");
+                        String getHobby = jObject.getString("W.hobby");
+                        String getHobbyD = jObject.getString("W.hobbyDetail");
+                        String getToken = jObject.getString("U.userToken");
+
+//                    String userName = jObject.getString("userName");
+//                    String userImg = jObject.getString("userImg");
+
+                        new FCMPush(pushHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getToken,"");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else
                 Toast.makeText(getApplicationContext(),"매칭 실패 되었습니다.", Toast.LENGTH_SHORT).show();
         }else if(url.equals("http://61.84.24.188/topping3/getout.php")){
             if(data.equals("successGetOut"))
@@ -371,5 +400,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         requestBtn.setVisibility(View.GONE);
         writerBtn.setVisibility(View.GONE);
         cancleBtn.setVisibility(View.VISIBLE);
+    }
+    private class PushHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            Log.e(Tag, "PushHandler obj = "+msg.obj.toString());
+        }
     }
 }

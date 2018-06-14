@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.GridViewAdapter;
 import com.example.topping.topping.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.soyu.soyulib.soyuHttpTask;
 
 import java.util.ArrayList;
@@ -91,7 +92,8 @@ public class HobbyActivity extends AbstractActivity {
                     selectedItem = stringBuilder.toString();
                     Toast.makeText(context, "Selected Rows\n" + selectedItem, Toast.LENGTH_SHORT).show();
                     new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/loginTest.php",
-                            "userMail=" + user.getEmail() + "&userName=" + user.getDisplayName() + "&userHobby=" + selectedItem + "&userImg="+ user.getPhotoUrl(), "");
+                            "userMail=" + user.getEmail() + "&userName=" + user.getDisplayName() + "&userHobby=" + selectedItem +
+                                    "&userImg="+ user.getPhotoUrl()+"&userToken="+FirebaseInstanceId.getInstance().getToken(), "");
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
 

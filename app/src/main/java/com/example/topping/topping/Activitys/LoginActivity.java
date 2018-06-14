@@ -51,6 +51,15 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("Login",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("user", "value");
+//        editor.remove("user");
+        editor.commit();
+
+        String text = sp.getString("key",null);
+
         Log.e("GoogleLoginCheck", "1. onCreate");
         setContentView(R.layout.activity_login);
         mStatusTextView = findViewById(R.id.status);
@@ -90,13 +99,13 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
                     userMail = user.getEmail();
                     userName = user.getDisplayName();
                     new soyuHttpTask(logingHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/loginCheck.php", "userMail="+userMail, "");
-                    logingHandler.postDelayed(new Runnable() {
+                    /*logingHandler.postDelayed(new Runnable() {
                         //LoginCheck 메소드를 1초후 실행
                         @Override
                         public void run() {
                             LoginCheck();
                         }
-                    }, 1000);
+                    }, 1000)*/;
                 }else{
                     Log.e("GoogleLoginCheck", "4. mAuthListener User Null");
                 }
@@ -125,11 +134,12 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
         Log.e("data", data);
 
         loginCheck = data.trim().toString();
+        LoginCheck(loginCheck);
     }
     boolean LoginCheck;
-    public void LoginCheck(){
+    public void LoginCheck(String CheckLogin){
         Log.e("GoogleLoginCheck", "5. Login Cheek");
-        if (loginCheck.equals("loginOK")){
+        if (CheckLogin.equals("loginOK")){
             Log.e("GoogleLoginCheck", "5. Login Cheek Success");
             Log.e("login", "success");
             LoginCheck=true;
@@ -205,7 +215,7 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
             }
         }
     }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct){
+    /*private void firebaseAuthWithGoogle(GoogleSignInAccount acct){
         Log.d(Tag, "firebaseAuthWithGoogle:" + acct.getId());
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
@@ -231,8 +241,8 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
                         // [END_EXCLUDE]
                     }
                 });
-    }
-   /* private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    }*/
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.e("GoogleLoginCheck", "11. FirebaseAuthWithGoogle");
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -249,7 +259,7 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
                 }
             }
         });
-    }*/
+    }
 // [START signin]
    private void signIn() {
        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -286,17 +296,17 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
     }
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            mStatusTextView.setText(getString(R.string.common_signin_button_text, user.getEmail()));
+            mDetailTextView.setText(getString(R.string.common_signin_button_text, user.getUid()));
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
-//            mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
+            mStatusTextView.setText(R.string.common_signin_button_text_long);
+            mDetailTextView.setText(null);
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
     private void revokeAccess() {

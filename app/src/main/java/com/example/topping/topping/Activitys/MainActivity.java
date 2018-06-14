@@ -23,13 +23,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.DownloadImageTask;
+import com.example.topping.topping.FCM.FCMPush;
+import com.example.topping.topping.FCM.MyFirebaseMessagingService;
 import com.example.topping.topping.NotifiyDialog;
 import com.example.topping.topping.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.soyu.soyulib.soyuHttpTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 public class MainActivity extends AbstractActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -47,9 +59,11 @@ public class MainActivity extends AbstractActivity
     EditText editText;
     Button findBtn;
     Handler handler = new MessageHandler();
+    Handler handler2 = new PushHandler();
     FloatingActionButton fab;
     Button logoutBtn;
 
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +75,7 @@ public class MainActivity extends AbstractActivity
 //        editor.remove("user");
         editor.commit();
 
+//        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/timeCheck.php", "userMail="+userMail, "");
 
 
         editText = (EditText)findViewById(R.id.main_editText);
@@ -164,6 +179,7 @@ public class MainActivity extends AbstractActivity
         }else if(v==logoutBtn){
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+            user.delete();
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
@@ -174,9 +190,76 @@ public class MainActivity extends AbstractActivity
         public void handleMessage(Message msg){
             super.handleMessage(msg);
             Log.e(Tag, "obj = "+msg.obj.toString());
+            FCMJSONParser(msg.obj.toString());
         }
     }
-    void NotificationSetting(){
+    void FCMJSONParser(String str) {
+        StringTokenizer tokens = new StringTokenizer(str);
 
+        String url = tokens.nextToken("|");
+        String data = tokens.nextToken("|").toString();
+
+        Log.e(Tag +" url", url);
+        Log.e(Tag +" data", data);
+
+        try {
+            JSONArray jarray = new JSONArray(data);   // JSONArray 생성
+//            index = new int[jarray.length()];
+            for (int i = 0; i < jarray.length(); i++) {
+                JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+//                index[i] = jObject.getInt("index");
+                String fromDate = jObject.getString("fromDate");
+                int msgCheck = jObject.getInt("FCM");
+                String token = "cbpkYo9cF-M:APA91bE2uTBKuN8DAj8YkJ_JB5ZnuFq_Ql2G72hRqtzWonMjxiXw8ggHFQrOQY2RCKwL0gjn9hv49SMOQdghpkj-9jeYz8KsZR-L9bXWxVD_VFqEJZwZhTL2HbSFiohB4ZEeDLOKnn-3";
+                new FCMPush(handler2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,token,"");
+                /*
+                if(msgCheck == 0){
+                    if (timeCheck(fromDate)) {
+                        new Thread(){
+                            public void run(){
+                                try {
+                                    MyFirebaseMessagingService.PushFCM("cbpkYo9cF-M:APA91bE2uTBKuN8DAj8YkJ_JB5ZnuFq_Ql2G72hRqtzWonMjxiXw8ggHFQrOQY2RCKwL0gjn9hv49SMOQdghpkj-9jeYz8KsZR-L9bXWxVD_VFqEJZwZhTL2HbSFiohB4ZEeDLOKnn-3");
+                                    Log.e(Tag, "PushFCM(token)");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.e(Tag, "MyFirebaseMessagingService.PushFCM(token) ERR");
+                                }
+                            }
+                        }.start();
+
+                    }
+                }*/
+
+                Log.e("JSON",fromDate + ", "+msgCheck);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public boolean timeCheck(String date){
+        Calendar currentDate =Calendar.getInstance();
+        String curr = df.format(currentDate.getTime());
+        StringTokenizer st = new StringTokenizer(date);
+
+        String dates = st.nextToken(" ").toString();
+        String times = st.nextToken(" ").toString();
+
+        Log.e("dates", dates);
+        Log.e("curr", curr);
+//        String gets = df.format(date);
+        if(curr.equals(dates)){
+            Log.e(Tag, "true");
+            return  true;
+        }else {
+            Log.e(Tag, "false");
+            return false;
+        }
+    }
+    private class PushHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            Log.e(Tag, "PushHandler obj = "+msg.obj.toString());
+        }
     }
 }
