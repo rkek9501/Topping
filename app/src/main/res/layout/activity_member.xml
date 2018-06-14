@@ -21,24 +21,25 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/memberImg"
             android:src="@drawable/ic_launcher_background"
-            android:layout_gravity="center"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp" />
-
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_weight="100">
             <TextView
                 android:id="@+id/memberMail"
                 android:text="아이디 : "
+                android:textSize="14dp"
                 android:textColor="@color/blackcolor"
-                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -46,13 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_line"
                 android:background="@color/appbar"
-                android:layout_marginVertical="3dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
 
             <TextView
                 android:id="@+id/memberName"
                 android:text="이름 : "
                 android:textColor="@color/blackcolor"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -60,12 +62,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_line"
                 android:background="@color/appbar"
-                android:layout_marginVertical="3dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
             <TextView
                 android:id="@+id/memberHobby"
                 android:text="취미 : "
                 android:textColor="@color/blackcolor"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -73,9 +77,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_line"
                 android:background="@color/appbar"
-                android:layout_marginVertical="3dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
         </LinearLayout>
 
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:src="@android:color/darker_gray"
+            android:id="@+id/shineBtn"
+            android:layout_weight="1"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="@android:color/holo_green_dark"
+            app:allow_random_color="false"
+            app:siShape="@raw/smile"
+            app:shine_turn_angle="20"
+            app:shine_count="15"
+            app:enable_flashing="true"/>
     </LinearLayout>
     <TextView
         android:text="최근 등록한 글"
@@ -88,21 +109,15 @@
         android:id="@+id/member_write_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <!--<View-->
-        <!--android:background="@color/colorGray"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0.5dp"-->
-        <!--android:layout_marginVertical="10dp"/>-->
     <View
+        android:background="@color/colorGray"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_line"
-        android:background="@color/appbar"
+        android:layout_height="0.5dp"
         android:layout_marginVertical="10dp"/>
-
     <TextView
         android:text="후기"
         android:textSize="20dp"
+        android:textColor="@color/blackcolor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"/>
@@ -110,9 +125,4 @@
         android:id="@+id/member_after_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/view_line"
-        android:background="@color/appbar"/>
 </LinearLayout>

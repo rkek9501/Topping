@@ -1,11 +1,9 @@
 package com.example.topping.topping.Activitys;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +30,9 @@ public class AbstractActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+
+       /* Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "fonts/BMJUA_ttf.ttf"));*/
         if(user!=null){
             userMail = user.getEmail();
             userName = user.getDisplayName();

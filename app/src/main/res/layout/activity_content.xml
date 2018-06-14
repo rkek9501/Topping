@@ -5,192 +5,201 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary"
-    tools:context="com.example.topping.topping.Activitys.ContentActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:text="매칭 신청"
-                android:textSize="25dp"
-                android:textColor="@color/blackcolor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/content_title"
-                android:text="글 제목"
-                android:textColor="@color/blackcolor"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="left"/>
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_line"
-            android:background="@color/appbar"/>
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/linecolor"/>-->
+        android:background="@color/colorPrimary"
+        tools:context="com.example.topping.topping.Activitys.ContentActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginVertical="10dp">
-            <TextView
-                android:id="@+id/content_date"
-                android:text="Date"
-                android:textColor="@color/blackcolor"
-                android:textSize="16dp"
+            android:padding="20dp">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_line"
-            android:background="@color/appbar"/>
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/linecolor"/>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginVertical="10dp">
-            <TextView
-                android:id="@+id/content_time"
-                android:text="Time"
-                android:textColor="@color/blackcolor"
-                android:textSize="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_line"
-            android:background="@color/appbar"/>
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/linecolor"/>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginVertical="10dp">
-            <TextView
-                android:text="Member"
-                android:textSize="16dp"
-                android:textColor="@color/blackcolor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerView"
-                android:orientation="horizontal">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_line"
-            android:background="@color/appbar"/>
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/linecolor"/>/>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginVertical="20dp">
-            <TextView
-                android:text="Detail"
-                android:textSize="16dp"
-                android:textColor="@color/blackcolor"
+                android:orientation="vertical">
+                <TextView
+                    android:text="매칭 신청"
+                    android:textSize="25dp"
+                    android:textColor="@color/blackcolor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/content_title"
+                    android:text="글 제목"
+                    android:textColor="@color/blackcolor"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="left"/>
+            </LinearLayout>
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/content_detail"
-                android:text="2018.5.12 / 13시\n상대 11명\n"
-                android:textColor="@color/textcolor"
-                android:padding="5dp"
-                android:textSize="12dp"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/appbar"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="10dp">
+                <TextView
+                    android:id="@+id/content_date"
+                    android:text="Date"
+                    android:textSize="16dp"
+                    android:textColor="@color/blackcolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/appbar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="10dp">
+                <TextView
+                    android:id="@+id/content_time"
+                    android:text="Time"
+                    android:textColor="@color/blackcolor"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/appbar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="10dp">
+                <TextView
+                    android:text="Member"
+                    android:textSize="16dp"
+                    android:textColor="@color/blackcolor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerView"
+                    android:orientation="horizontal">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/appbar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="20dp">
+                <TextView
+                    android:text="Detail"
+                    android:textColor="@color/blackcolor"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/content_detail"
+                    android:text="2018.5.12 / 13시\n상대 11명\n"
+                    android:padding="5dp"
+                    android:textColor="@color/blackcolor"
+                    android:textSize="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/appbar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="20dp">
+                <TextView
+                    android:text="Place"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/content_place"
+                    android:text="장소"
+                    android:textSize="12dp"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:id="@+id/fragmentHere"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+            </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_line"
-            android:background="@color/appbar"/>
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/linecolor"/>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginVertical="20dp">
 
-            <TextView
-                android:text="Place"
-                android:textSize="16dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/content_place"
-                android:text="장소"
-                android:textSize="12dp"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/fragmentHere"
-                android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                >
+                <Button
+                    android:id="@+id/requestBtn"
+                    android:text="신청"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/appbar" />
+                <Button
+                    android:id="@+id/cancleBtn"
+                    android:visibility="gone"
+                    android:text="참여 취소"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/appbar" />
+                <LinearLayout
+                    android:id="@+id/writerBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <Button
+                        android:id="@+id/changeBtn"
+                        android:text="글 수정"
+                        android:textAlignment="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/appbar" />
+                    <Button
+                        android:id="@+id/deleteBtn"
+                        android:text="글 삭제"
+                        android:textAlignment="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/appbar" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            >
-            <Button
-                android:id="@+id/requestBtn"
-                android:text="신청"
-                android:textColor="@color/textcolor"
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/appbar" />
-                <!--android:background="@color/colorAccent" />-->
-            <Button
-                android:id="@+id/changeBtn"
-                android:visibility="gone"
-                android:text="수정"
-                android:textColor="@color/textcolor"
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent" />
-        </LinearLayout>
-
-    </LinearLayout>
-</LinearLayout>
 </ScrollView>

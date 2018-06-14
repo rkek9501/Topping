@@ -15,9 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.HorizontalListViewAdapter;
+import com.example.topping.topping.FCM.FCMPush;
 import com.example.topping.topping.GoogleMapFragment;
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
@@ -31,16 +34,31 @@ import java.util.StringTokenizer;
 
 public class ContentActivity extends AbstractActivity implements View.OnClickListener {
     private String Tag = "ContentActivity";
-    private Button requestBtn, changeBtn;
+    private Button requestBtn, changeBtn, cancleBtn, deleteBtn;
     private TextView title, date, time, detail, place;
+    private LinearLayout writerBtn;
     private AlertDialog.Builder builder;
     private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mMails = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private static int[] index;
-//    private static String[] userMail;
+    private boolean joinCheck = false;
     int get;
-    Handler handler = new ContentHandler();
+    private String outString;
 
+    private int indexData;
+    private String userMailData;
+    private String hobbyData;
+    private String hobbyDetailData;
+    private String placeData;
+    private String fromDateData;
+    private String toDateData;
+    private String detailData;
+    private int participantData;
+    private String membersData;
+
+    Handler handler = new ContentHandler();
+    Handler pushHandler = new PushHandler();
     private ViewGroup mapLayout;
 
     @Override
@@ -58,11 +76,15 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         place = (TextView)findViewById(R.id.content_place);
         requestBtn = (Button)findViewById(R.id.requestBtn);
         changeBtn = (Button)findViewById(R.id.changeBtn);
+        cancleBtn = (Button)findViewById(R.id.cancleBtn);
+        deleteBtn = (Button)findViewById(R.id.deleteBtn);
         requestBtn.setOnClickListener(this);
         changeBtn.setOnClickListener(this);
+        cancleBtn.setOnClickListener(this);
+        deleteBtn.setOnClickListener(this);
+        writerBtn = (LinearLayout)findViewById(R.id.writerBtn);
+
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
-
-
     }
 
     @Override
@@ -71,6 +93,10 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             setRequsetDialog();
         }else  if(v==changeBtn){
             setChangeDialog();
+        }else if(v==cancleBtn){
+            setCancleDialog();
+        }else if(v==deleteBtn){
+            setDeleteDialog();
         }
     }
 
@@ -82,7 +108,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.e("content3",get +", "+userMail);
+//                new FCMPush(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, )
                 new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/contentInsert.php","index="+get+"&memberName=, "+userMail, "");
+                Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                intent.putExtra("index",get);
+                startActivity(intent);
+                finish();
             }
         });
 //        builder.setNegativeButton("아니오", null);
@@ -101,7 +132,10 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+                intent.putExtra("indexData",indexData);
+                startActivity(intent);
+                finish();
             }
         });
 //        builder.setNegativeButton("아니오", null);
@@ -113,7 +147,48 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         });
         builder.create().show();
     }
+    private void setDeleteDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage("내용을 삭제 하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/contentDelete.php","index="+get, "");
+                finish();
+            }
+        });
+//        builder.setNegativeButton("아니오", null);
+        builder.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+        builder.create().show();
+    }
+    private void setCancleDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage("현재 참여중인 매칭에서 나가시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(joinCheck){
+                    new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/getout.php","index="+get+"&members="+outString+"&participant="+(participantData-1), "");
+                    finish();
+                }
+
+            }
+        });
+        builder.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
+    }
     private class ContentHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -130,9 +205,11 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
 
         String url = tokens.nextToken("|").trim().toString();
         String data = tokens.nextToken("|").toString();
+//        String data2 = tokens.nextToken("|").toString();
 
         Log.e(Tag +" url", url);
         Log.e(Tag +" data", data);
+//        Log.e(Tag +" data", data2);
 
         if(url.equals("http://61.84.24.188/topping3/content.php")){
             try {
@@ -141,25 +218,25 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 for (int i = 0; i < jarray.length(); i++) {
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
-                    index[i] = jObject.getInt("index");
-                    String userMail = jObject.getString("userMail");
-                    String hobby = jObject.getString("hobby");
-                    String hobbyDetail = jObject.getString("hobbyDetail");
-                    String place = jObject.getString("place");
-                    String fromDate = jObject.getString("fromDate");
-                    String toDate = jObject.getString("toDate");
-                    String detail = jObject.getString("detail");
-                    int participant = jObject.getInt("participant");
-                    String members = jObject.getString("members");
+                    indexData = jObject.getInt("index");
+                    userMailData = jObject.getString("userMail");
+                    hobbyData = jObject.getString("hobby");
+                    hobbyDetailData = jObject.getString("hobbyDetail");
+                    placeData = jObject.getString("place");
+                    fromDateData = jObject.getString("fromDate");
+                    toDateData = jObject.getString("toDate");
+                    detailData = jObject.getString("detail");
+                    participantData = jObject.getInt("participant");
+                    membersData = jObject.getString("members");
 
-                    timePaser(fromDate, toDate);
-                    memberPaser(members, participant);
-                    MapSetting(place);
+                    timePaser(fromDateData, toDateData);
+                    memberPaser(membersData, participantData, userMailData);
+                    MapSetting(placeData);
 
-                    this.title.setText(hobby+"/"+hobbyDetail);
-                    this.detail.setText(detail);
-                    this.place.setText(place);
-                    Log.e("JSON",index+", "+userMail+", "+hobby+", "+fromDate+", "+place+", "+members+", "+participant);
+                    this.title.setText(hobbyData+"/"+hobbyDetailData);
+                    this.detail.setText(detailData);
+                    this.place.setText(placeData);
+                    Log.e("JSON",indexData+", "+userMailData+", "+hobbyDetailData+", "+fromDateData+", "+place+", "+membersData+", "+participantData);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -171,11 +248,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 for (int i = 0; i < jarray.length(); i++) {
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
-                    String userMail = jObject.getString("userMail");
+                    String memberMail = jObject.getString("userMail");
                     String userName = jObject.getString("userName");
                     String userImg = jObject.getString("userImg");
 
                     mImageUrls.add(userImg);
+                    mMails.add(memberMail);
                     mNames.add(userName);
 
                     Log.e("JSON","content2");
@@ -184,33 +262,82 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                 e.printStackTrace();
             }
             initRecyclerView();
+        }else if(url.equals("http://61.84.24.188/topping3/contentInsert.php")){
+            StringTokenizer getData = new StringTokenizer(data);
+
+            String result = getData.nextToken("#").trim().toString();
+            String result2 = getData.nextToken("#").toString();
+
+            if(result.equals("insertSuccess")) {
+                Toast.makeText(getApplicationContext(), "매칭 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONArray jarray = new JSONArray(result2);   // JSONArray 생성
+                    for (int i = 0; i < jarray.length(); i++) {
+                        JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+
+                        int getIndex = jObject.getInt("W.index");
+                        String getUserMail = jObject.getString("W.userMail");
+                        String getHobby = jObject.getString("W.hobby");
+                        String getHobbyD = jObject.getString("W.hobbyDetail");
+                        String getToken = jObject.getString("U.userToken");
+
+//                    String userName = jObject.getString("userName");
+//                    String userImg = jObject.getString("userImg");
+
+                        new FCMPush(pushHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getToken,"");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else
+                Toast.makeText(getApplicationContext(),"매칭 실패 되었습니다.", Toast.LENGTH_SHORT).show();
+        }else if(url.equals("http://61.84.24.188/topping3/getout.php")){
+            if(data.equals("successGetOut"))
+                Toast.makeText(getApplicationContext(),"매칭 취소가 되었습니다.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(),"매칭 취소가 실패 되었습니다.", Toast.LENGTH_SHORT).show();
+        }else if(url.equals("http://61.84.24.188/topping3/contentDelete.php")){
+            if(data.equals("successDelete"))
+                Toast.makeText(getApplicationContext(),"매칭이 삭제 되었습니다.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(),"매칭 삭제가 실패 되었습니다.", Toast.LENGTH_SHORT).show();
         }
-    }
-    void doJSONParser2(String str) {
-        StringTokenizer tokens = new StringTokenizer(str);
-
-        String url = tokens.nextToken("|").trim().toString();
-        String data = tokens.nextToken("|").toString();
-
-        Log.e(Tag +" url", url);
-        Log.e(Tag +" data", data);
-
 
     }
-    private void memberPaser(String members, int participant){
-        Log.e("content2",members+", "+participant);
+    private void memberPaser(String members, int participant, String writer) {
+        Log.e("content2 aa", members + ", " + participant);
         StringTokenizer tokens = new StringTokenizer(members);
         String member[] = new String[participant];
-        String returnString="";
-        for (int i=0; i<participant; i++){
+        String returnString = "";
+        outString = "";
+        String CheckMember = null;
+        for (int i = 0; i < participant; i++) {
             member[i] = tokens.nextToken(",").trim().toString();
-            if (i==(participant-1)){
-                returnString +="`userMail`='"+member[i]+"'";
-            }else {
-                returnString +="`userMail`='"+member[i]+"' || ";
+            if (i > 0){
+                if(member[i].equals(userMail))
+                    CheckMember = member[i];
+            }
+            Log.e("content for + " + i, member[i]);
+        }
+        for (int i = 0; i < participant; i++) {
+            if (i == (participant - 1)) {
+                if (CheckMember!=null) {
+                    if (!CheckMember.equals(member[i]))
+                        outString += member[i] + ",";
+                }
+                returnString += "`userMail`='" + member[i] + "'";
+            } else {
+                if (CheckMember!=null) {
+                    if (!CheckMember.equals(member[i]))
+                        outString += member[i] + ",";
+                }
+                returnString += "`userMail`='" + member[i] + "' || ";
             }
         }
-        Log.e("content2",returnString);
+        WriterCheck(writer,CheckMember);
+
+        Log.e("content2 bb",returnString);
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content2.php","members="+returnString.toString(), "");
     }
     private void timePaser(String from, String to){
@@ -234,7 +361,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        HorizontalListViewAdapter adapter = new HorizontalListViewAdapter(this, mNames, mImageUrls);
+        HorizontalListViewAdapter adapter = new HorizontalListViewAdapter(this, mNames, mImageUrls,mMails);
         recyclerView.setAdapter(adapter);
     }
     private void MapSetting(String place){
@@ -246,5 +373,39 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(R.id.fragmentHere, fragment);
         transaction.commit();
+    }
+    private void WriterCheck(String writer, String memberMail){
+        if(userMail.equals(writer)){
+            setChangeBtn();
+        }else if(userMail.equals(memberMail)) {
+            setCancleBtn();
+            if(!writer.equals(memberMail)){
+                joinCheck=true;
+            }
+        }else {
+            setRequestBtn();
+        }
+    }
+    private void setChangeBtn(){
+        requestBtn.setVisibility(View.GONE);
+        writerBtn.setVisibility(View.VISIBLE);
+        cancleBtn.setVisibility(View.GONE);
+    }
+    private void setRequestBtn(){
+        requestBtn.setVisibility(View.VISIBLE);
+        writerBtn.setVisibility(View.GONE);
+        cancleBtn.setVisibility(View.GONE);
+    }
+    private void setCancleBtn(){
+        requestBtn.setVisibility(View.GONE);
+        writerBtn.setVisibility(View.GONE);
+        cancleBtn.setVisibility(View.VISIBLE);
+    }
+    private class PushHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            Log.e(Tag, "PushHandler obj = "+msg.obj.toString());
+        }
     }
 }
