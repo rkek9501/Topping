@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class SearchActivity extends AbstractActivity {
     private static int[] index;
     private static String userMail;
 
+    private EditText editText;
     private Button findBtn;
     private ListView listView;
     Handler handler = new SearchHandler();
@@ -47,20 +49,19 @@ public class SearchActivity extends AbstractActivity {
         findBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(getApplicationContext(), ContentActivity.class));
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("hobby", String.valueOf(editText.getText()));
+                startActivity(intent);
+                finish();
             }
         });
 
-//        LinearLayout container = (LinearLayout) findViewById(R.id.searchParent);
-//        View listitem = View.inflate(getApplicationContext(), R.layout.listview_item, container);
-
-        String sport="운동";
         listView = (ListView) findViewById(R.id.searchListview);
-//        new SelectDB(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "");
-
+        editText = (EditText) findViewById(R.id.search_editText);
         Intent intent = getIntent();
         String get = intent.getStringExtra("hobby" );
         Log.e("get", get+"");
+        editText.setText(get);
 
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "hobby="+get,"");
 

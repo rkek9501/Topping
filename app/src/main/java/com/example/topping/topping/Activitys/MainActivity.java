@@ -75,7 +75,7 @@ public class MainActivity extends AbstractActivity
 
 //        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/timeCheck.php", "userMail="+userMail, "");
 
-        editText = (EditText)findViewById(R.id.main_editText);
+        editText = (EditText)findViewById(R.id.mainEditText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
         logoutBtn = (Button)findViewById(R.id.log_out);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -178,7 +178,6 @@ public class MainActivity extends AbstractActivity
     @Override
     public void onClick(View v) {
         if(v==findBtn){
-//            edit = ;
             Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             intent.putExtra("hobby",String.valueOf(editText.getText()));
             startActivity(intent);
