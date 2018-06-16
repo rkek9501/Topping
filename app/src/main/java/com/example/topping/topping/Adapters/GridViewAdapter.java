@@ -28,12 +28,12 @@ public class GridViewAdapter extends BaseAdapter {
     private SparseBooleanArray mSelectedItemsIds;
 
     private static final int[] images = new int[]{
-            R.drawable.camera, R.drawable.basketball, R.drawable.basketball2, R.drawable.bike, R.drawable.camping,
-            R.drawable.camping_tent, R.drawable.camera2, R.drawable.playguitar, R.drawable.movie, R.drawable.piano };
+            R.drawable.basketball,R.drawable.bike, R.drawable.camping, R.drawable.camera2, R.drawable.playguitar,
+            R.drawable.movie, R.drawable.piano, R.drawable.art, R.drawable.skateboard, R.drawable.boardgame};
 
     private static final String[] text = new String[]{
-           "사진", "농구", "농구", "자전거", "캠핑",
-            "캠핑", "사진", "기타", "영화", "피아노"};
+          "농구", "자전거", "캠핑", "사진", "기타",
+            "영화", "피아노", "미술", "보드", "보드게임", };
 
     private class ViewHolder {
         private TextView label;
