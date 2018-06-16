@@ -2,6 +2,7 @@ package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,6 +64,7 @@ public class MainActivity extends AbstractActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
         SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
@@ -164,9 +166,7 @@ public class MainActivity extends AbstractActivity
             intent = new Intent(getApplicationContext(), MemberActivity.class);
         } else if (id == R.id.like) {
             intent = new Intent(getApplicationContext(), FavoritActivity.class);
-        } else if (id == R.id.search) {
-
-        } else if (id == R.id.write) {
+        }else if (id == R.id.write) {
             intent = new Intent(getApplicationContext(), FindActivity.class);
         }
         startActivity(intent);
@@ -227,73 +227,4 @@ public class MainActivity extends AbstractActivity
 //            FCMJSONParser(msg.obj.toString());
         }
     }
-    /*void FCMJSONParser(String str) {
-        StringTokenizer tokens = new StringTokenizer(str);
-
-        String url = tokens.nextToken("|");
-        String data = tokens.nextToken("|").toString();
-
-        Log.e(Tag +" url", url);
-        Log.e(Tag +" data", data);
-
-        try {
-            JSONArray jarray = new JSONArray(data);   // JSONArray 생성
-//            index = new int[jarray.length()];
-            for (int i = 0; i < jarray.length(); i++) {
-                JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-//                index[i] = jObject.getInt("index");
-                String fromDate = jObject.getString("fromDate");
-                int msgCheck = jObject.getInt("FCM");
-                String token = "cbpkYo9cF-M:APA91bE2uTBKuN8DAj8YkJ_JB5ZnuFq_Ql2G72hRqtzWonMjxiXw8ggHFQrOQY2RCKwL0gjn9hv49SMOQdghpkj-9jeYz8KsZR-L9bXWxVD_VFqEJZwZhTL2HbSFiohB4ZEeDLOKnn-3";
-//                new FCMPush(handler2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,token,"");
-                *//*
-                if(msgCheck == 0){
-                    if (timeCheck(fromDate)) {
-                        new Thread(){
-                            public void run(){
-                                try {
-                                    MyFirebaseMessagingService.PushFCM("cbpkYo9cF-M:APA91bE2uTBKuN8DAj8YkJ_JB5ZnuFq_Ql2G72hRqtzWonMjxiXw8ggHFQrOQY2RCKwL0gjn9hv49SMOQdghpkj-9jeYz8KsZR-L9bXWxVD_VFqEJZwZhTL2HbSFiohB4ZEeDLOKnn-3");
-                                    Log.e(Tag, "PushFCM(token)");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Log.e(Tag, "MyFirebaseMessagingService.PushFCM(token) ERR");
-                                }
-                            }
-                        }.start();
-
-                    }
-                }*//*
-
-                Log.e("JSON",fromDate + ", "+msgCheck);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    public boolean timeCheck(String date){
-        Calendar currentDate =Calendar.getInstance();
-        String curr = df.format(currentDate.getTime());
-        StringTokenizer st = new StringTokenizer(date);
-
-        String dates = st.nextToken(" ").toString();
-        String times = st.nextToken(" ").toString();
-
-        Log.e("dates", dates);
-        Log.e("curr", curr);
-//        String gets = df.format(date);
-        if(curr.equals(dates)){
-            Log.e(Tag, "true");
-            return  true;
-        }else {
-            Log.e(Tag, "false");
-            return false;
-        }
-    }
-    private class PushHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg){
-            super.handleMessage(msg);
-            Log.e(Tag, "PushHandler obj = "+msg.obj.toString());
-        }
-    }*/
 }

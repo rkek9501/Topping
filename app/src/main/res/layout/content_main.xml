@@ -47,9 +47,8 @@
 
             <Button
                 android:id="@+id/main_find_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:background="@drawable/searchbtn" />
 
         </LinearLayout>

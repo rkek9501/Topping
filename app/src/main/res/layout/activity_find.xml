@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".Activitys.FindActivity">
 
     <LinearLayout
@@ -16,7 +17,6 @@
         android:paddingTop="20dp">
         <TextView
             android:text="매칭 등록"
-            android:textColor="@color/blackcolor"
             android:textSize="30dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -26,137 +26,92 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:text="취미"
-                    android:textColor="@color/blackcolor"
-                    android:textSize="20dp"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content" />
-                <Spinner
-                    android:id="@+id/category1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/category1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:text=""
-                    android:textSize="20dp"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content" />
-                <Spinner
-                    android:id="@+id/category2"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/view_line"
-                android:background="@color/appbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingVertical="10dp">
+                android:layout_marginVertical="5dp"
+                android:gravity="center|left">
                 <TextView
-                    android:text="장소"
-                    android:textColor="@color/blackcolor"
-                    android:textSize="20dp"
+                    android:text="취미"
+                    android:textSize="18dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/category1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/category1"/>
+                <Spinner
+                    android:id="@+id/category2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/appbar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                android:paddingVertical="5dp">
+                <TextView
+                    android:text="장소"
+                    android:textSize="18dp"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:text="클릭하여 장소를 정해주세요."
                     android:id="@+id/place"
                     android:textSize="16dp"
                     android:layout_width="match_parent"
+                    android:paddingVertical="5dp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_line"
-                android:background="@color/appbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
-
+                android:background="@color/appbar"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                android:layout_marginVertical="5dp">
                 <TextView
-                    android:text="날짜"
-                    android:textColor="@color/blackcolor"
-                    android:textSize="20dp"
+                    android:text="시작"
+                    android:textSize="18dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
                 <LinearLayout
                     android:id="@+id/datePickerFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:gravity="center">
                     <TextView
                         android:id="@+id/datePickerFromDate"
                         android:text="2018.05.13"
                         android:textSize="15dp"
-                        android:paddingTop="8dp"
                         android:gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"/>
                     <TextView
                         android:id="@+id/datePickerFromTime"
                         android:text="13:00"
                         android:textSize="15dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:paddingHorizontal="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"/>
                 </LinearLayout>
-                <TextView
-                    android:text=" ~ "
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <LinearLayout
-                    android:id="@+id/datePickerTo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/datePickerToDate"
-                        android:text="2018.05.13"
-                        android:textSize="15dp"
-                        android:paddingTop="8dp"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/datePickerToTime"
-                        android:text="13:00"
-                        android:textSize="15dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
                 <CheckBox
                     android:id="@+id/dateCheckBox"
                     android:text="당일"
@@ -165,38 +120,70 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_line"
-                android:background="@color/appbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
-
+                android:background="@color/appbar"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginVertical="5dp"
+                android:gravity="center|left">
                 <TextView
-                    android:text="세부사항"
-                    android:textColor="@color/blackcolor"
-                    android:textSize="20dp"
+                    android:text="종료"
+                    android:textSize="18dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
-
-                <EditText
-                    android:id="@+id/detail"
-                    android:textSize="16dp"
-                    android:lines="5"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/datePickerTo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/datePickerToDate"
+                        android:text="2018.05.13"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"/>
+                    <TextView
+                        android:id="@+id/datePickerToTime"
+                        android:text="13:00"
+                        android:textSize="15dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:paddingHorizontal="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"/>
+                </LinearLayout>
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_line"
-                android:background="@color/appbar" />
+                android:background="@color/appbar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="10dp">
+                <TextView
+                    android:text="세부사항"
+                    android:textSize="18dp"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/detail"
+                    android:textSize="16dp"
+                    android:background="@drawable/border2"
+                    android:lines="5"
+                    android:layout_gravity="center"
+                    android:gravity="left|top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -204,16 +191,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
         <Button
-            android:text="등록"
-            android:textColor="@color/blackcolor"
+            android:text="등록하기"
             android:id="@+id/submitBtn"
             android:textAlignment="center"
-            android:background="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:background="@color/appbar"/>
+        <Button
+            android:text="수정하기"
+            android:id="@+id/modifyBtn"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/appbar"/>
     </LinearLayout>
 
 </LinearLayout>
