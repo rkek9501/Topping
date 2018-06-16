@@ -94,7 +94,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                         e.printStackTrace();
                     }
                 }else{
-                    mapText.setText("생성된 마커를 먼저 지워주세요.");
+                    Toast.makeText(getApplicationContext(), "생성된 마커를 먼저 지워주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -117,6 +117,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     if (!markerCheck) {
 
                         String address = editText.getText().toString();
+                        if(address.equals("")){
+                            Toast.makeText(getApplicationContext(), "입력된 값이 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
                         List<Address> addressList = null;
 
                         // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
@@ -134,19 +137,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                         mOptions2.title("search result");
                         mOptions2.snippet(realAddr);
                         mOptions2.position(point);
+                        markerCheck = true;
                         // 마커 추가
                         mMap.addMarker(mOptions2);
                         // 해당 좌표로 화면 줌
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
                     } else {
-                        mapText.setText("생성된 마커를 먼저 지우고 검색해주세요.");
+                        Toast.makeText(getApplicationContext(), "생성된 마커를 먼저 지우고 검색해주세요.", Toast.LENGTH_SHORT).show();
                     }
                 }catch (IndexOutOfBoundsException e){
                     markerCheck =false;
-                    mapText.setText("검색결과가 없습니다. 다시 검색해 주세요.");
+                    Toast.makeText(getApplicationContext(), "검색결과가 없습니다. 다시 검색해 주세요.", Toast.LENGTH_SHORT).show();
                 }catch (NullPointerException e) {
                     markerCheck =false;
-                    mapText.setText("검색결과가 없습니다. 다시 검색해 주세요.");
+                    Toast.makeText(getApplicationContext(), "검색결과가 없습니다. 다시 검색해 주세요.", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

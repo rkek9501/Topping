@@ -25,11 +25,11 @@
         <activity
             android:name=".Activitys.IntroActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activitys.MainActivity"
@@ -73,11 +73,11 @@
         <activity android:name=".Activitys.HobbyActivity"
             android:parentActivityName=".Activitys.MainActivity"
             android:theme="@style/MyActionBar">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity android:name=".Activitys.MapActivity"></activity>

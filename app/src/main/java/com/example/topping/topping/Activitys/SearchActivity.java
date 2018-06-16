@@ -104,6 +104,8 @@ public class SearchActivity extends AbstractActivity {
         try {
             JSONArray jarray = new JSONArray(data);   // JSONArray 생성
             index = new int[jarray.length()];
+            if(jarray.length()==0)
+                Toast.makeText(getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
                 index[i] = jObject.getInt("index");

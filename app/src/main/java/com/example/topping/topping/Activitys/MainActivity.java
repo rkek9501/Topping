@@ -3,6 +3,8 @@ package com.example.topping.topping.Activitys;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -93,7 +95,7 @@ public class MainActivity extends AbstractActivity
         movieimg.setOnClickListener(this);
         cameraimg.setOnClickListener(this);
         fab.setOnClickListener(this);
-
+        fab.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
         Log.e("handler : ", handler+"");
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/index.php","");
 

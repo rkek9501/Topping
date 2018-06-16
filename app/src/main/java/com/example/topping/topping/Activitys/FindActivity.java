@@ -140,7 +140,6 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getApplicationContext(),MapActivity.class), REQUEST_TEST);
-//                startActivity(new Intent(getApplicationContext(),MapActivity.class));
             }
         });
     }
@@ -152,7 +151,7 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
             if(resultCode == RESULT_OK) {
                 place.setText(data.getStringExtra("result"));
             }else {
-                place.setText("request fail");
+                place.setText("장소를 다시 정해주세요.");
             }
         }
     }
@@ -186,7 +185,12 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
                 timeSetListener,hour, minute, false);
 
         if(v==submitBtn){
-            setSubmitDialog();
+            if(place.getText().equals("장소를 다시 정해주세요.") || place.getText().equals("클릭하여 장소를 정해주세요.")) {
+                Toast.makeText(getApplicationContext(), "장소가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            }else {
+                setSubmitDialog();
+
+            }
         }
         if((v==dateFrom)||(v==dateTo)){
             if(v==dateFrom){
