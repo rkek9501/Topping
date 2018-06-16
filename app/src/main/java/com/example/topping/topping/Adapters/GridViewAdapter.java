@@ -33,7 +33,7 @@ public class GridViewAdapter extends BaseAdapter {
 
     private static final String[] text = new String[]{
           "농구", "자전거", "캠핑", "사진", "기타",
-            "영화", "피아노", "미술", "보드", "보드게임", };
+            "영화", "피아노", "미술", "보드", "보드게임"};
 
     private class ViewHolder {
         private TextView label;

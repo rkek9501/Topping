@@ -36,8 +36,8 @@ public class HobbyActivity extends AbstractActivity {
     Handler handler = new MessageHandler();
     String selectedItem;
     private static final String[] text = new String[]{
-            "사진", "농구", "농구", "자전거", "캠핑",
-            "캠핑", "사진", "기타", "영화", "피아노"};
+            "농구", "자전거", "캠핑", "사진", "기타",
+            "영화", "피아노", "미술", "보드", "보드게임"};
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
