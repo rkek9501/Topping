@@ -1,6 +1,7 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class MemberActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_member);
 
         Intent intent = getIntent();
@@ -66,7 +68,7 @@ public class MemberActivity extends AbstractActivity {
         memberName = (TextView) findViewById(R.id.memberName);
         memberHobby = (TextView) findViewById(R.id.memberHobby);
         memberWrite = (ListView) findViewById(R.id.member_write_listview);
-        memberAfter = (ListView) findViewById(R.id.member_after_listview);
+//        memberAfter = (ListView) findViewById(R.id.member_after_listview);
         shineButton = (ShineButton) findViewById(R.id.shineBtn);
 
         shineButton.setBtnColor(Color.GRAY);
@@ -85,7 +87,7 @@ public class MemberActivity extends AbstractActivity {
         memberWrite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "index : " + index[position] + ", position : " + (position), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "index : " + index[position] + ", position : " + (position), Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), ContentActivity.class);
                 i.putExtra("index", index[position]);
                 startActivity(i);

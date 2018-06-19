@@ -1,6 +1,7 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ public class SearchActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_search);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,7 +70,7 @@ public class SearchActivity extends AbstractActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "index : " +index[position], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "index : " +index[position], Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
                 int sendIndex = index[position];
                 intent.putExtra("index",sendIndex);

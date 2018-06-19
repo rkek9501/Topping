@@ -3,6 +3,7 @@ package com.example.topping.topping.Activitys;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +48,7 @@ public class HobbyActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_hobby);
 
         container = (LinearLayout)findViewById(R.id.activity_hobby);

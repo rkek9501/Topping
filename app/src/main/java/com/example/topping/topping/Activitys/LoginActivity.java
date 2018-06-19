@@ -3,6 +3,7 @@ package com.example.topping.topping.Activitys;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -51,7 +52,7 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         SharedPreferences sp = getApplicationContext().getSharedPreferences("Login", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("user", "value");

@@ -93,15 +93,4 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginVertical="10dp"/>
-    <TextView
-        android:text="후기"
-        android:textSize="20dp"
-        android:textColor="@color/blackcolor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"/>
-    <ListView
-        android:id="@+id/member_after_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </LinearLayout>

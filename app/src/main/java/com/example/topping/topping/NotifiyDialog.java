@@ -62,14 +62,24 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getContext(), "index : " + index[position] + ", position : " + (position), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), ContentActivity.class);
+                i.putExtra("index", index[position]);
+                startActivity(i);
+            }
+        });
+
+        /*setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //새로운 페이지 연결
-                /*Toast.makeText(getContext(), "index : " +index + ", position : " +(position), Toast.LENGTH_SHORT).show();
+                *//*Toast.makeText(getContext(), "index : " +index + ", position : " +(position), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(), ContentActivity.class);
                 int sendIndex = index[position];
                 intent.putExtra("index",sendIndex);
-                startActivity(intent);*/
+                startActivity(intent);*//*
             }
-        });
+        });*/
         return view;
     }
     @Override

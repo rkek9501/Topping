@@ -3,6 +3,7 @@ package com.example.topping.topping.Activitys;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -82,6 +83,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_content);
 
         Intent intent = getIntent();
@@ -219,7 +221,13 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             Log.e(Tag, "obj = " + msg.obj.toString());
             String data = msg.obj.toString();
 
-            doJSONParser(data);
+            try {
+                doJSONParser(data);
+            }catch (NullPointerException e){
+                Toast.makeText(getApplicationContext(), "데이터가 로드되지 않습니다.", Toast.LENGTH_SHORT);
+                finish();
+            }
+
         }
     }
 
