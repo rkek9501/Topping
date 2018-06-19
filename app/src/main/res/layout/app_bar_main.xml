@@ -47,6 +47,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="@color/floating"
-        app:srcCompat="@drawable/editbtn" />
+        app:srcCompat="@drawable/pen" />
 
 </android.support.design.widget.CoordinatorLayout>

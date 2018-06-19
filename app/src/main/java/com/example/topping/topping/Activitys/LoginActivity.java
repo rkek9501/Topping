@@ -63,10 +63,10 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
 
         Log.e("GoogleLoginCheck", "1. onCreate");
         setContentView(R.layout.activity_login);
-        mStatusTextView = findViewById(R.id.status);
+/*        mStatusTextView = findViewById(R.id.status);
         mDetailTextView = findViewById(R.id.detail);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
+        findViewById(R.id.disconnect_button).setOnClickListener(this);*/
         mAuth = FirebaseAuth.getInstance();
         textView = (TextView) findViewById(R.id.login_text);
 
@@ -216,7 +216,7 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
                 // Google Sign In failed, update UI appropriately
                 Log.w(Tag, "Google sign in failed", e);
                 // [START_EXCLUDE]
-                updateUI(null);
+//                updateUI(null);
                 // [END_EXCLUDE]
             }
         }
@@ -268,25 +268,9 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
         });
     }
 
-    // [START signin]
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    // [END signin]
-
-    private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
-
-        // Google sign out
-        mGoogleSignInClient.signOut().addOnCompleteListener(this,
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        updateUI(null);
-                    }
-                });
     }
 
     @Override
@@ -294,55 +278,11 @@ public class LoginActivity extends AbstractActivity implements GoogleApiClient.O
         Log.e("GoogleLoginCheck", "onConnectionFailed");
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(Tag, "handleSignInResult : " + result.isSuccess());
-        if (result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            textView.setText(getString(R.string.common_signin_button_text, account.getDisplayName()));
-            updateUI(user);
-        } else {
-        }
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            mStatusTextView.setText(getString(R.string.common_signin_button_text, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.common_signin_button_text, user.getUid()));
-
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.common_signin_button_text_long);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
-    }
-
-    private void revokeAccess() {
-        // Firebase sign out
-        mAuth.signOut();
-
-        // Google revoke access
-        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        updateUI(null);
-                    }
-                });
-    }
-
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.sign_in_button) {
             signIn();
-        } else if (i == R.id.sign_out_button) {
-            signOut();
-        } else if (i == R.id.disconnect_button) {
-            revokeAccess();
         }
     }
 }
