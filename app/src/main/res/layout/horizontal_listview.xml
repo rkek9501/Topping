@@ -3,7 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="1dp">
+    android:layout_margin="1dp"
+    android:cacheColorHint="#ffffff"
+    android:scrollingCache="false">
 
     <android.support.v7.widget.CardView
         android:layout_width="60dp"
@@ -11,7 +13,8 @@
         app:cardCornerRadius="4dp"
         app:cardMaxElevation="2dp"
         app:cardElevation="1dp"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:cacheColorHint="#00000000">
 
 
         <RelativeLayout

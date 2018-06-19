@@ -34,8 +34,13 @@ public class FCMPush extends AsyncTask<String, Void, String>{
         HttpURLConnection conn = null;
         try {
             Log.d("PushTask", "args[0] = " + args[0]);
+            Log.d("PushTask", "args[1] = " + args[1]);
+            Log.d("PushTask", "args[2] = " + args[2]);
+
             this.flag = args[0];
             String userToken = this.flag;
+            String hobby = args[1];
+            String userName = args[2];
             URL url = new URL(FMCurl);
             conn = (HttpURLConnection)url.openConnection();
             conn.setUseCaches(false);
@@ -49,45 +54,17 @@ public class FCMPush extends AsyncTask<String, Void, String>{
 
             JSONObject root = new JSONObject();
             JSONObject notification = new JSONObject();
-            notification.put("body", "message");
-            notification.put("title", "notification Title");
+            notification.put("body", userName+"님이 참여하였습니다.");
+            notification.put("title", userName+"님이"+hobby+"에 참여하였습니다.");
+            notification.put("icon", "0");
             root.put("notification", notification);
             root.put("to", userToken);
-//            root.put("click_action", "OPEN_ACTIVITY");
-
-            /*JSONObject json = new JSONObject();
-            json.put("to",userToken.trim());
-            JSONObject info = new JSONObject();
-            info.put("title", "Notificatoin Title"); // Notification title
-            info.put("body", "Hello Test notification"); // Notification body
-            json.put("notification", info);*/
+            root.put("click_action", "OPEN_ACTIVITY");
 
             OutputStream os = conn.getOutputStream();
             os.write(root.toString().getBytes("utf-8"));
             os.flush();
             conn.getResponseCode();
-            /*Log.d("PushTask",conn.getResponseCode()+"");
-            PrintWriter output = new PrintWriter(conn.getOutputStream());
-            output.print(root);
-            output.close();
-            OutputStreamWriter output2 = new OutputStreamWriter(conn.getOutputStream());
-            output2.write(root.toString());
-            output2.flush();
-
-            conn.getInputStream();
-            StringBuilder sb =  new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while (true){
-                String line = br.readLine();
-                if(line==null){
-                    br.close();
-                    conn.disconnect();
-                    conn = null;
-                    result = sb.toString();
-                    break;
-                }
-                sb.append(line).append("\n");
-            }*/
         } catch (MalformedURLException var15) {
             var15.printStackTrace();
         } catch (IOException e) {

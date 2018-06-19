@@ -1,35 +1,51 @@
 package com.example.topping.topping.Activitys;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.HorizontalListViewAdapter;
 import com.example.topping.topping.FCM.FCMPush;
-import com.example.topping.topping.GoogleMapFragment;
 import com.example.topping.topping.R;
+import com.example.topping.topping.MapFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.soyu.soyulib.soyuHttpTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class ContentActivity extends AbstractActivity implements View.OnClickListener {
@@ -37,6 +53,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
     private Button requestBtn, changeBtn, cancleBtn, deleteBtn;
     private TextView title, date, time, detail, place;
     private LinearLayout writerBtn;
+    private ScrollView scroll;
     private AlertDialog.Builder builder;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mMails = new ArrayList<>();
@@ -60,7 +77,8 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
     Handler handler = new ContentHandler();
     Handler pushHandler = new PushHandler();
     private ViewGroup mapLayout;
-
+    private GoogleMap mMap;
+    private Geocoder geocoder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +87,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         Intent intent = getIntent();
         get = intent.getIntExtra("index",0);
         Log.e("get", get+"");
+
+        Init();
+
+        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
+    }
+    private void Init(){
         title = (TextView)findViewById(R.id.content_title);
         date = (TextView)findViewById(R.id.content_date);
         time = (TextView)findViewById(R.id.content_time);
@@ -78,13 +102,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         changeBtn = (Button)findViewById(R.id.changeBtn);
         cancleBtn = (Button)findViewById(R.id.cancleBtn);
         deleteBtn = (Button)findViewById(R.id.deleteBtn);
+        scroll = (ScrollView)findViewById(R.id.contentScrollView);
         requestBtn.setOnClickListener(this);
         changeBtn.setOnClickListener(this);
         cancleBtn.setOnClickListener(this);
         deleteBtn.setOnClickListener(this);
         writerBtn = (LinearLayout)findViewById(R.id.writerBtn);
-
-        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+get, "");
     }
 
     @Override
@@ -281,11 +304,12 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
                         String getHobby = jObject.getString("W.hobby");
                         String getHobbyD = jObject.getString("W.hobbyDetail");
                         String getToken = jObject.getString("U.userToken");
+                        String getUserName = jObject.getString("U.userName");
 
 //                    String userName = jObject.getString("userName");
 //                    String userImg = jObject.getString("userImg");
 
-                        new FCMPush(pushHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getToken,"");
+                        new FCMPush(pushHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getToken, getHobby+"/"+getHobbyD, getUserName,"");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -364,15 +388,87 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         HorizontalListViewAdapter adapter = new HorizontalListViewAdapter(this, mNames, mImageUrls,mMails);
         recyclerView.setAdapter(adapter);
     }
-    private void MapSetting(String place){
-        GoogleMapFragment fragment = new GoogleMapFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("Place", place);
-        fragment.setArguments(bundle);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.add(R.id.fragmentHere, fragment);
-        transaction.commit();
+    private void MapSetting(final String place){
+        MapFragment mapFrag = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentHere);
+        mapFrag.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                if (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    boolean permission = hasAllPermissionsGranted();
+                    if (permission) {
+                        Log.e("test","permission "+permission);
+                    }
+                    return;
+                }
+                googleMap.setMyLocationEnabled(false);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap = googleMap;
+
+//                mMap.setOnInfoWindowClickListener((GoogleMap.OnInfoWindowClickListener) this);
+                UiSettings uiSettings = mMap.getUiSettings();
+                uiSettings.setZoomControlsEnabled(true);
+                uiSettings.setZoomGesturesEnabled(true);
+                geocoder = new Geocoder(getApplicationContext());
+                List<Address> addressList = null;
+
+                try {
+                    addressList = geocoder.getFromLocationName(place.toString(),1);
+                    Double latitude = addressList.get(0).getLatitude(); // 위도
+                    Double longitude = addressList.get(0).getLongitude(); // 경도
+
+                    LatLng point = new LatLng(latitude,longitude);
+                    String realAddr = addressList.get(0).getAddressLine(0);
+                    // 마커 생성
+                    MarkerOptions mOptions = new MarkerOptions();
+                    mOptions.title("모임 장소").snippet(realAddr).position(point);
+                    // 마커 추가
+                    mMap.addMarker(mOptions);
+                    // 해당 좌표로 화면 줌
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15));
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }catch (IndexOutOfBoundsException e){
+                    e.printStackTrace();
+                }
+
+
+                // GoogleMap 에 마커클릭 이벤트 설정 가능.
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        // 마커 클릭시 호출되는 콜백 메서드
+                        Toast.makeText(getApplicationContext(),"모임장소는 "+place+"입니다.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
+            }
+        });
+
+        mapFrag.setListener(new MapFragment.OnTouchListener() {
+            @Override
+            public void onTouch() {
+                scroll.requestDisallowInterceptTouchEvent(true);
+            }
+        });
+    }
+    //권한 추가
+    private static final int REQUEST_PERMISSIONS = 1;
+    private static final String[] MY_PERMISSIONS = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private boolean hasAllPermissionsGranted() {
+        for (String permission : MY_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, MY_PERMISSIONS, REQUEST_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
     }
     private void WriterCheck(String writer, String memberMail){
         if(userMail.equals(writer)){
@@ -408,4 +504,27 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
             Log.e(Tag, "PushHandler obj = "+msg.obj.toString());
         }
     }
+
+    /*@Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        super.onTouchEvent(ev);
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                // Disallow ScrollView to intercept touch events.
+                scroll.requestDisallowInterceptTouchEvent(true);
+                // Disable touch on transparent view
+                return false;
+
+            case MotionEvent.ACTION_UP:
+                // Allow ScrollView to intercept touch events.
+                scroll.requestDisallowInterceptTouchEvent(false);
+                return true;
+
+            case MotionEvent.ACTION_MOVE:
+                scroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+        }
+        return true;
+    }*/
 }

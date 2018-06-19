@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/contentScrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:cacheColorHint="#ffffff"
+    android:scrollingCache="false">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -141,10 +144,13 @@
                     android:padding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <RelativeLayout
+                <fragment
                     android:id="@+id/fragmentHere"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="300dp"
+                    android:cacheColorHint="#ffffff"
+                    android:scrollingCache="false"
+                    class="com.example.topping.topping.MapFragment"/>
             </LinearLayout>
         </LinearLayout>
 
