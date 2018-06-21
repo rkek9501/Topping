@@ -231,7 +231,9 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
                         "&fromDate=" + fromDate+ "&toDate=" + toDate+ "&detail=" + detailText, "");
 
                 Toast.makeText(getApplicationContext(),"글이 등록 되었습니다.", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("hobby",hobby);
+                startActivity(intent);
                 finish();
             }
         });

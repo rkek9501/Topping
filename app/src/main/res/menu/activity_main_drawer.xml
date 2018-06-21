@@ -7,7 +7,7 @@
         <item
             android:id="@+id/member_info"
             android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="계정" />
+            android:title="내 정보" />
         <item
             android:id="@+id/like"
             android:icon="@drawable/ic_favorite_black_24dp"

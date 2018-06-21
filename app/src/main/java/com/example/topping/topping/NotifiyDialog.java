@@ -57,7 +57,7 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
         listView = (ListView)view.findViewById(R.id.notify_listview);
         adapter = new MemberWriteListViewAdapter();
 //        listView.setAdapter(adapter);
-        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/member.php","userMail="+ userMail,"");
+        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/memberWrite.php","userMail="+ userMail,"");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,18 +116,13 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
-                mail = jObject.getString("U.userMail");
-                name = jObject.getString("U.userName");
-                userHobby = jObject.getString("U.userHobby");
-                img = jObject.getString("U.userImg");
-                index[i] = jObject.getInt("W.index");
-                hobby = jObject.getString("W.hobby");
-                hobbyDetail = jObject.getString("W.hobbyDetail");
-                participant = jObject.getString("W.participant");
+                index[i] = jObject.getInt("index");
+                hobby = jObject.getString("hobby");
+                hobbyDetail = jObject.getString("hobbyDetail");
+                participant = jObject.getString("participant");
 
 
                 String hobbys = hobby + "/" + hobbyDetail;
-                Log.e(Tag, mail+", "+name+", "+hobbys+", "+hobbyDetail+","+participant);
                 adapter.addItem(hobbys, participant);
             }
             listView.setAdapter(adapter);

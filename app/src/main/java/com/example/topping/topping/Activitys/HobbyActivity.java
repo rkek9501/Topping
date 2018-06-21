@@ -97,6 +97,7 @@ public class HobbyActivity extends AbstractActivity {
                             "userMail=" + user.getEmail() + "&userName=" + user.getDisplayName() + "&userHobby=" + selectedItem +
                                     "&userImg="+ user.getPhotoUrl()+"&userToken="+FirebaseInstanceId.getInstance().getToken(), "");
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
                 }
 
             }

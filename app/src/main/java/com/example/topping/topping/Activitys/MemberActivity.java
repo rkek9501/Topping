@@ -32,7 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MemberActivity extends AbstractActivity {
     private String Tag = "MemberActivity";
     private CircleImageView imageView;
-    private TextView memberEmail, memberName, memberHobby;
+    private TextView memberEmail, memberName, memberHobby, nonList;
     private ListView memberWrite, memberAfter;
     private MemberWriteListViewAdapter adapter = new MemberWriteListViewAdapter();
     Handler handler = new MemberHandler();
@@ -68,7 +68,7 @@ public class MemberActivity extends AbstractActivity {
         memberName = (TextView) findViewById(R.id.memberName);
         memberHobby = (TextView) findViewById(R.id.memberHobby);
         memberWrite = (ListView) findViewById(R.id.member_write_listview);
-//        memberAfter = (ListView) findViewById(R.id.member_after_listview);
+        nonList = (TextView)findViewById(R.id.nonList);
         shineButton = (ShineButton) findViewById(R.id.shineBtn);
 
         shineButton.setBtnColor(Color.GRAY);
@@ -82,6 +82,7 @@ public class MemberActivity extends AbstractActivity {
             shineButton.setVisibility(View.GONE);
         }
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/member.php", "userMail=" + get, "");
+        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/memberWrite.php", "userMail=" + get, "");
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/favoritCheck.php", "userMail=" + userMail + "&otherUser=" + get, "");
 
         memberWrite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -151,19 +152,11 @@ public class MemberActivity extends AbstractActivity {
                 for (int i = 0; i < jarray.length(); i++) {
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
 
-                    mail = jObject.getString("U.userMail");
-                    name = jObject.getString("U.userName");
-                    userHobby = jObject.getString("U.userHobby");
-                    img = jObject.getString("U.userImg");
-                    index[i] = jObject.getInt("W.index");
-                    hobby = jObject.getString("W.hobby");
-                    hobbyDetail = jObject.getString("W.hobbyDetail");
-                    participant = jObject.getString("W.participant");
+                    mail = jObject.getString("userMail");
+                    name = jObject.getString("userName");
+                    userHobby = jObject.getString("userHobby");
+                    img = jObject.getString("userImg");
 
-
-                    String hobbys = hobby + "/" + hobbyDetail;
-                    Log.e(Tag, mail + ", " + name + ", " + hobbys + ", " + hobbyDetail + "," + participant);
-                    adapter.addItem(hobbys, participant);
                     if (i == 0) {
                         memberEmail.setText("아이디 : " + mail);
                         memberName.setText("이름 : " + name);
@@ -172,6 +165,28 @@ public class MemberActivity extends AbstractActivity {
 
                         new DownloadImageTask(imageView).execute(img);
                     }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (url.equals("http://61.84.24.188/topping3/memberWrite.php")) {
+            try {
+                JSONArray jarray = new JSONArray(data);   // JSONArray 생성
+                index = new int[jarray.length()];
+                if(jarray.length() == 0){
+                    nonList.setVisibility(View.VISIBLE);
+                    }
+                for (int i = 0; i < jarray.length(); i++) {
+                    JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+
+                    index[i] = jObject.getInt("index");
+                    hobby = jObject.getString("hobby");
+                    hobbyDetail = jObject.getString("hobbyDetail");
+                    participant = jObject.getString("participant");
+
+                    String hobbys = hobby + "/" + hobbyDetail;
+                    Log.e(Tag, hobbys + ", " + hobbyDetail + "," + participant);
+                    adapter.addItem(hobbys, participant);
                 }
                 memberWrite.setAdapter(adapter);
             } catch (JSONException e) {

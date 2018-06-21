@@ -9,7 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.example.topping.topping.Adapters.FavoritGridViewAdapter;
 import com.example.topping.topping.R;
@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 public class FavoritActivity extends AbstractActivity {
 
     private String Tag = "FavoritActivity";
-    private GridView gridView;
+    private ListView gridView;
     private String otherMail[];
     FavoritGridViewAdapter adapter = new FavoritGridViewAdapter();
     Handler handler = new FavoritHandler();
@@ -35,7 +35,7 @@ public class FavoritActivity extends AbstractActivity {
         setContentView(R.layout.activity_favorit);
 
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/myFavorit.php", "userMail="+userMail,"");
-        gridView = (GridView)findViewById(R.id.favoritGridView);
+        gridView = (ListView)findViewById(R.id.favoritGridView);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

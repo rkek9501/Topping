@@ -317,7 +317,7 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
 //                    String userName = jObject.getString("userName");
 //                    String userImg = jObject.getString("userImg");
 
-                        new FCMPush(pushHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getToken, getHobby+"/"+getHobbyD, getUserName,"");
+                        new FCMPush(pushHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getToken, getHobby+"/"+getHobbyD, user.getDisplayName(),"");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
