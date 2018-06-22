@@ -45,7 +45,7 @@ public class SearchActivity extends AbstractActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
 //        getSupportActionBar().
-        getSupportActionBar().setIcon(R.drawable.title);
+//        getSupportActionBar().setIcon(R.drawable.title);
 
         findBtn = (Button) findViewById(R.id.search_find_btn);
         findBtn.setOnClickListener(new View.OnClickListener() {

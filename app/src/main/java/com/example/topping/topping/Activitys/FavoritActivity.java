@@ -33,7 +33,8 @@ public class FavoritActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_favorit);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/myFavorit.php", "userMail="+userMail,"");
         gridView = (ListView)findViewById(R.id.favoritGridView);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
