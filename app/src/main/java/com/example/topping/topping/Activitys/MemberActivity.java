@@ -42,6 +42,8 @@ public class MemberActivity extends AbstractActivity {
     //    private int index;
     private String hobby;
     private String hobbyDetail;
+    private String fromDate;
+    private String place;
     private String participant;
     private String get;
 
@@ -182,11 +184,13 @@ public class MemberActivity extends AbstractActivity {
                     index[i] = jObject.getInt("index");
                     hobby = jObject.getString("hobby");
                     hobbyDetail = jObject.getString("hobbyDetail");
+                    fromDate = jObject.getString("fromDate");
+                    place = jObject.getString("place");
                     participant = jObject.getString("participant");
 
                     String hobbys = hobby + "/" + hobbyDetail;
                     Log.e(Tag, hobbys + ", " + hobbyDetail + "," + participant);
-                    adapter.addItem(hobbys, participant);
+                    adapter.addItem(hobbys,fromDate, participant, place);
                 }
                 memberWrite.setAdapter(adapter);
             } catch (JSONException e) {

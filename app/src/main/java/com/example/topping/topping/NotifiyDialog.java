@@ -40,6 +40,8 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
     private String mail, name, userHobby, img;
     private String hobby;
     private String hobbyDetail;
+    private String fromDate;
+    private String place;
     private String participant;
     public NotifiyDialog(){
 
@@ -119,11 +121,13 @@ public class NotifiyDialog extends DialogFragment implements View.OnClickListene
                 index[i] = jObject.getInt("index");
                 hobby = jObject.getString("hobby");
                 hobbyDetail = jObject.getString("hobbyDetail");
+                fromDate = jObject.getString("fromDate");
+                place = jObject.getString("place");
                 participant = jObject.getString("participant");
 
 
                 String hobbys = hobby + "/" + hobbyDetail;
-                adapter.addItem(hobbys, participant);
+                adapter.addItem(hobbys, fromDate, participant ,place);
             }
             listView.setAdapter(adapter);
         } catch (JSONException e) {

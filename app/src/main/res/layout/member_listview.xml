@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp">
-
-    <TextView
-        android:id="@+id/member_listview_title"
-        android:text="글 제목"
-        android:textColor="@color/blackcolor"
+    android:orientation="vertical"
+    android:layout_marginTop="8dp">
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_marginBottom="4dp">
+        <TextView
+            android:id="@+id/member_listview_title"
+            android:text="글 제목"
+            android:textColor="@color/blackcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/member_listview_participant"
+            android:text="참여자수"
+            android:textColor="@color/blackcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
     <TextView
-        android:id="@+id/member_listview_participant"
-        android:text="참여자수"
-        android:textColor="@color/blackcolor"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
+        android:id="@+id/member_listview_fromdate"
+        android:text="시작일"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"/>
+    <TextView
+        android:id="@+id/member_listview_place"
+        android:text="장소"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorBrightGray"/>
+</LinearLayout>

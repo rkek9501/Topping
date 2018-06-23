@@ -87,13 +87,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="gone">
         <TextView
             android:text="매칭 주제"
             android:textSize="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"/>
+        <TextView
+            android:text="시작일"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
         <TextView
             android:id="@+id/memberCount"
             android:text="참여자수"
@@ -121,5 +128,6 @@
         android:background="@color/colorGray"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginVertical="10dp"/>
+        android:layout_marginVertical="10dp"
+        android:visibility="gone"/>
 </LinearLayout>

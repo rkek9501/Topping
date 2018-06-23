@@ -7,10 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -18,16 +15,7 @@ import com.example.topping.topping.Activitys.MainActivity;
 import com.example.topping.topping.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.soyu.soyulib.soyuHttpTask;
-
-import org.json.JSONObject;
-
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Map;
-
-import static com.example.topping.topping.Activitys.AbstractActivity.userMail;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
