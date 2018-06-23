@@ -52,7 +52,6 @@ public class MainActivity extends AbstractActivity
     EditText editText;
     Button findBtn;
     Handler handler = new MessageHandler();
-//    Handler handler2 = new PushHandler();
     FloatingActionButton fab;
     Button logoutBtn;
     String edit;
@@ -71,9 +70,9 @@ public class MainActivity extends AbstractActivity
 
         SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("user",user.getEmail());
-//        editor.remove("user");
+        editor.putString("login","login_OK");
         editor.commit();
+        userMail = user.getEmail();
 
 //        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/timeCheck.php", "userMail="+userMail, "");
 
@@ -190,6 +189,11 @@ public class MainActivity extends AbstractActivity
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
             user.delete();
+            SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove("login");
+            editor.commit();
+
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }

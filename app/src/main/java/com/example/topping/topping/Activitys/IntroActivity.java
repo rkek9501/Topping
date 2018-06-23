@@ -1,12 +1,14 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.example.topping.topping.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.soyu.soyulib.soyuHttpTask;
 
 public class IntroActivity extends AbstractActivity {
@@ -17,7 +19,16 @@ public class IntroActivity extends AbstractActivity {
         @Override
         public void run() {
             // 3초뒤에 다음화면(MainActivity)으로 넘어가기 Handler 사용
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
+            String idCheck = sp.getString("login","1");
+
+            Intent intent;
+            if(idCheck.equals("login_OK") && idCheck!=null){
+//                user= FirebaseAuth.getInstance().getCurrentUser();
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            }else {
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+            }
             startActivity(intent); // 다음화면으로 넘어가기
             finish(); //Intro Activity 화면 제거
         }
@@ -30,13 +41,7 @@ public class IntroActivity extends AbstractActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
-
-//        new soyuHttpTask(logingHandler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/loginCheck.php", "userMail="+userMail, "");
-
     }
-
-
-
 
     @Override
     protected void onResume() {

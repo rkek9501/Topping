@@ -48,47 +48,25 @@ public class AbstractActivity extends AppCompatActivity {
     public Date today = Calendar.getInstance().getTime();
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
 
-       /* Typekit.getInstance()
-                .addNormal(Typekit.createFromAsset(this, "fonts/BMJUA_ttf.ttf"));*/
-        if(user!=null){
-            userMail = user.getEmail();
-            userName = user.getDisplayName();
-//            userImg = setImageURI(user.getPhotoUrl());
-        }else{
-
-        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         ActionBar actionBar = getSupportActionBar();
 
-        // Custom Actionbar를 사용하기 위해 CustomEnabled을 true 시키고 필요 없는 것은 false 시킨다
+
        /* actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
-        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
-        actionBar.setDisplayShowHomeEnabled(true);            //홈 아이콘을 숨김처리합니다.
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setIcon(R.drawable.title);
-        actionBar.setLogo(R.drawable.title);*/
-
-
-        //layout을 가지고 와서 actionbar에 포팅을 시킵니다.
-       /* LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View actionbar = inflater.inflate(R.layout.action_bar, null);
-
-        actionBar.setCustomView(actionbar);
-        actionBar.home
-
-        Toolbar parent = (Toolbar)actionbar.getParent();
-        parent.setContentInsetsAbsolute(0,0);
-        parent.setLogo(R.drawable.title);*/
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);*/
 
         actionBar.show();
+        // Custom Actionbar를 사용하기 위해 CustomEnabled을 true 시키고 필요 없는 것은 false 시킨다.
         actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
         actionBar.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
 
         showActionBarLogo(this, true);
