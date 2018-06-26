@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.topping.topping.Adapters.SearchListViewAdapter;
@@ -33,6 +35,8 @@ public class SearchActivity extends AbstractActivity {
     private EditText editText;
     private Button findBtn;
     private ListView listView;
+    private TextView searchString;
+    private LinearLayout searchBox;
     Handler handler = new SearchHandler();
     SearchListViewAdapter adapter = new SearchListViewAdapter();
 
@@ -48,8 +52,15 @@ public class SearchActivity extends AbstractActivity {
 
         listView = (ListView) findViewById(R.id.searchListview);
         editText = (EditText) findViewById(R.id.search_editText);
+        searchString = (TextView)findViewById(R.id.search_string);
+        searchBox = (LinearLayout)findViewById(R.id.search_box);
         Intent intent = getIntent();
         String get = intent.getStringExtra("hobby" );
+        if(intent.getStringExtra("searchBox" )==null){
+            searchBox.setVisibility(View.GONE);
+            searchString.setVisibility(View.VISIBLE);
+            searchString.setText("카테고리 - "+get);
+        }
         Log.e("get", get+"");
         editText.setText(get);
 

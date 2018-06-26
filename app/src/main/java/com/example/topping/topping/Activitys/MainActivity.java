@@ -171,6 +171,7 @@ public class MainActivity extends AbstractActivity
         if(v==findBtn){
             Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             intent.putExtra("hobby",String.valueOf(editText.getText()));
+            intent.putExtra("searchBox","BOX");
             startActivity(intent);
 
         }else if(v==fab){
