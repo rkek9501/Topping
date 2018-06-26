@@ -2,7 +2,6 @@ package com.example.topping.topping.Adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import com.example.topping.topping.R;
 import com.example.topping.topping.SearchListViewItem;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Arktic on 2018-04-18.
@@ -45,27 +43,30 @@ public class SearchListViewAdapter extends BaseAdapter {
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
         }
-        ImageView userImg = (ImageView)convertView.findViewById(R.id.userImg);
-        TextView userName = (TextView)convertView.findViewById(R.id.userName);
-        TextView userHobby = (TextView)convertView.findViewById(R.id.userHobby);
-        TextView toDate = (TextView)convertView.findViewById(R.id.toDate);
+//        ImageView userImg = (ImageView)convertView.findViewById(R.id.userImg);
+        TextView userName = (TextView)convertView.findViewById(R.id.searchUserName);
+        TextView userHobby = (TextView)convertView.findViewById(R.id.searchUserHobby);
+        TextView toDate = (TextView)convertView.findViewById(R.id.searchToDate);
+        TextView place = (TextView)convertView.findViewById(R.id.searchPlace);
 
         SearchListViewItem item = (SearchListViewItem) getItem(position);
 
-        userImg.setImageDrawable(item.getUserImg());
-        userName.setText(item.getUserName());
-        userHobby.setText(item.getHobby());
-        toDate.setText((CharSequence) item.getDate());
+//        userImg.setImageDrawable(item.getUserImg());
+        userName.setText("주최자 : "+item.getUserName());
+        userHobby.setText("취 미 : "+item.getHobby());
+        toDate.setText("시작일 : "+(CharSequence) item.getDate());
+        place.setText("장 소 : "+item.getPlace());
         return convertView;
     }
 
-    public void addItem(Drawable userImg, String userName, String userHobby, String toDate){
+    public void addItem(Drawable userImg, String userName, String userHobby, String toDate, String place){
         SearchListViewItem item = new SearchListViewItem();
 
         item.setUserImg(userImg);
         item.setUserName(userName);
         item.setHobby(userHobby);
         item.setDate(toDate);
+        item.setPlace(place);
 
         listItem.add(item);
     }

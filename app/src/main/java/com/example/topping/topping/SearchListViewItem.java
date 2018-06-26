@@ -11,8 +11,9 @@ import java.util.Date;
 public class SearchListViewItem {
     private Drawable userImg;
     private String userName;
-    private String hobby,hobbyDetail;
+    private String hobby;
     private String date;
+    private String place;
 
     public Drawable getUserImg(){return  userImg;}
     public void setUserImg(Drawable userImg) {this.userImg = userImg;}
@@ -23,9 +24,9 @@ public class SearchListViewItem {
     public String getHobby(){return  hobby;}
     public void setHobby(String hobby) {this.hobby=hobby;}
 
-    public String getHpbbyDetail() {return  hobbyDetail;}
-    public void setHobbyDetail(String hobbyDetail) { this.hobbyDetail = hobbyDetail;}
-
     public String getDate(){return  date;}
     public void setDate(String date){this.date = date;}
+
+    public String getPlace(){return  place;}
+    public void setPlace(String place){this.place = place;}
 }

@@ -122,9 +122,12 @@ public class SearchActivity extends AbstractActivity {
 
                 userMail = jObject.getString("userMail");
                 String hobby = jObject.getString("hobby");
+                String hobbyDetail = jObject.getString("hobbyDetail");
                 String fromDate = jObject.getString("fromDate");
+                String place = jObject.getString("place");
 
-                adapter.addItem(null, userMail, hobby, fromDate);
+                String putHobby = hobby+"/"+hobbyDetail;
+                adapter.addItem(null, userMail, putHobby, fromDate, place);
                 adapter.notifyDataSetChanged();
                 Log.e("JSON",index[i]+", "+userMail+", "+hobby+", "+fromDate);
             }
