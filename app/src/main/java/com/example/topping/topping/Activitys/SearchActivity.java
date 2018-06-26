@@ -1,6 +1,7 @@
 package com.example.topping.topping.Activitys;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,19 +45,6 @@ public class SearchActivity extends AbstractActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
-//        getSupportActionBar().
-//        getSupportActionBar().setIcon(R.drawable.title);
-
-        findBtn = (Button) findViewById(R.id.search_find_btn);
-        findBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                intent.putExtra("hobby", String.valueOf(editText.getText()));
-                startActivity(intent);
-                finish();
-            }
-        });
 
         listView = (ListView) findViewById(R.id.searchListview);
         editText = (EditText) findViewById(R.id.search_editText);
@@ -64,6 +52,15 @@ public class SearchActivity extends AbstractActivity {
         String get = intent.getStringExtra("hobby" );
         Log.e("get", get+"");
         editText.setText(get);
+
+        findBtn = (Button) findViewById(R.id.search_find_btn);
+        findBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String get2 = editText.getText().toString();
+                new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "hobby="+get2,"");
+            }
+        });
 
         new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/search.php", "hobby="+get,"");
 
@@ -101,7 +98,7 @@ public class SearchActivity extends AbstractActivity {
 
         Log.e(Tag +" url", url);
         Log.e(Tag +" data", data);
-
+        adapter.listItem.clear();
         loginCheck = data.trim().toString();
         try {
             JSONArray jarray = new JSONArray(data);   // JSONArray 생성
@@ -117,10 +114,19 @@ public class SearchActivity extends AbstractActivity {
                 String fromDate = jObject.getString("fromDate");
 
                 adapter.addItem(null, userMail, hobby, fromDate);
+                adapter.notifyDataSetChanged();
                 Log.e("JSON",index[i]+", "+userMail+", "+hobby+", "+fromDate);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("search", editText.getText().toString());
+        editor.commit();
     }
 }

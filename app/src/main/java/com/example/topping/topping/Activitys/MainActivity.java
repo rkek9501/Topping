@@ -38,16 +38,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AbstractActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-    private static final String TAG_JSON="topping";
-    private static final String TAG_USER_MAIL = "userMail";
-    private static final String TAG_USER_NAME = "userName";
-    private static final String TAG_USER_IMG ="userImg";
 
     private String Tag = "MainActivity";
-
-    private TextView mTextViewResult;
-    ArrayList<HashMap<String, String>> mArrayList;
-    String mJsonString;
 
     EditText editText;
     Button findBtn;
@@ -73,8 +65,6 @@ public class MainActivity extends AbstractActivity
         editor.putString("login","login_OK");
         editor.commit();
         userMail = user.getEmail();
-
-//        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/timeCheck.php", "userMail="+userMail, "");
 
         editText = (EditText)findViewById(R.id.mainEditText);
         findBtn = (Button)findViewById(R.id.main_find_btn);
@@ -230,6 +220,19 @@ public class MainActivity extends AbstractActivity
             super.handleMessage(msg);
             Log.e(Tag, "obj = "+msg.obj.toString());
 //            FCMJSONParser(msg.obj.toString());
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("OrderTest", "onResume");
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("topping",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        if (sp.getString("search",null)!=null){
+            String searchText = sp.getString("search",null);
+            editText.setText(searchText);
+            editor.remove("search").commit();
+            Log.e("Shared", searchText);
         }
     }
 }
