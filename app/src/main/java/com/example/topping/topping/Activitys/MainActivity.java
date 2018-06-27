@@ -52,6 +52,7 @@ public class MainActivity extends AbstractActivity
     LinearLayout musicimg;
     LinearLayout movieimg;
     LinearLayout cameraimg;
+    LinearLayout smileimg;
 
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     @Override
@@ -75,6 +76,7 @@ public class MainActivity extends AbstractActivity
         musicimg = (LinearLayout) findViewById(R.id.musicimg);
         movieimg = (LinearLayout) findViewById(R.id.moiveimg);
         cameraimg = (LinearLayout) findViewById(R.id.cameraimg);
+        smileimg  = (LinearLayout) findViewById(R.id.smileimg);
 
         findBtn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
@@ -83,6 +85,7 @@ public class MainActivity extends AbstractActivity
         musicimg.setOnClickListener(this);
         movieimg.setOnClickListener(this);
         cameraimg.setOnClickListener(this);
+        smileimg.setOnClickListener(this);
         fab.setOnClickListener(this);
         fab.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
         Log.e("handler : ", handler+"");
@@ -211,6 +214,10 @@ public class MainActivity extends AbstractActivity
         else if(v==cameraimg){
             Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             intent.putExtra("hobby","사진");
+            startActivity(intent);
+        }else if(v==smileimg){
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            intent.putExtra("hobby","");
             startActivity(intent);
         }
     }

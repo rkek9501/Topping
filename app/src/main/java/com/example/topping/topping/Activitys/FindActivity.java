@@ -30,13 +30,17 @@ import android.widget.Toast;
 import com.example.topping.topping.R;
 import com.soyu.soyulib.soyuHttpTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 public class FindActivity extends AbstractActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
     private String Tag = "FindActivity";
-    private Button submitBtn;
+    private Button submitBtn,modifyBtn;
     private Spinner category1,category2;
 
     private EditText detail;
@@ -56,6 +60,7 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
     private AlertDialog.Builder builder;
     private Handler handler = new MessageHandler();
 
+    private int getIndex;
     private int REQUEST_TEST = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +70,25 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
 
         initView();
         initListener();
+
+
+        Intent intent = getIntent();
+        getIndex = intent.getIntExtra("indexData",0);
+        if(getIndex!=0){
+            new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content.php","index="+getIndex, "");
+            submitBtn.setVisibility(View.GONE);
+            modifyBtn.setVisibility(View.VISIBLE);
+        }else {
+            submitBtn.setVisibility(View.VISIBLE);
+            modifyBtn.setVisibility(View.GONE);
+        }
     }
 
     private void initView(){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
 
+        modifyBtn = (Button) findViewById(R.id.modifyBtn);
         submitBtn = (Button)findViewById(R.id.submitBtn);
         category1 = (Spinner)findViewById(R.id.category1);
         category2 = (Spinner)findViewById(R.id.category2);
@@ -94,6 +112,7 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
 
     private void initListener(){
         submitBtn.setOnClickListener(this);
+        modifyBtn.setOnClickListener(this);
         category1.setOnItemSelectedListener(this);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -193,6 +212,8 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
                 setSubmitDialog();
 
             }
+        }else if(v==modifyBtn){
+            setModifyDialog();
         }
         if((v==dateFrom)||(v==dateTo)){
             if(v==dateFrom){
@@ -246,7 +267,37 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
         });
         builder.create().show();
     }
+    private void setModifyDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage("수정된 내용을 저장하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String hobby = category1.getSelectedItem().toString();
+                String hobbyDetail = category2.getSelectedItem().toString();
+                String placeText = place.getText().toString();
+                String fromDate = dateFromDate.getText() + " " + dateFromTime.getText();
+                String toDate = dateToDate.getText() + " " + dateToTime.getText();
+                String detailText = detail.getText().toString();
+                new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/modify.php",
+                        "index="+getIndex+"&userMail=" + user.getEmail() + "&hobby=" + hobby+ "&hobbyDetail=" + hobbyDetail+ "&place=" + placeText+
+                                "&fromDate=" + fromDate+ "&toDate=" + toDate+ "&detail=" + detailText, "");
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("hobby",hobby);
+                startActivity(intent);
+                finish();
+            }
+        });
+//        builder.setNegativeButton("아니오", null);
+        builder.setNeutralButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+        builder.create().show();
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (position){
@@ -289,8 +340,62 @@ public class FindActivity extends AbstractActivity implements View.OnClickListen
         @Override
         public void handleMessage(Message msg){
             super.handleMessage(msg);
-            Log.e(Tag, "obj = "+msg.obj.toString());
+            doJSONParser(msg.obj.toString());
         }
     }
+    void doJSONParser(String str) {
+        StringTokenizer tokens = new StringTokenizer(str);
 
+        String url = tokens.nextToken("|").trim().toString();
+        String data = tokens.nextToken("|").toString();
+
+        Log.e(Tag + " url", url);
+        Log.e(Tag + " data", data);
+
+        if (url.equals("http://61.84.24.188/topping3/content.php")) {
+            try {
+                JSONArray jarray = new JSONArray(data);   // JSONArray 생성
+                for (int i = 0; i < jarray.length(); i++) {
+                    JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+
+                    int indexData = jObject.getInt("index");
+                    String userMailData = jObject.getString("userMail");
+                    String hobbyData = jObject.getString("hobby");
+                    String hobbyDetailData = jObject.getString("hobbyDetail");
+                    String placeData = jObject.getString("place");
+                    String fromDateData = jObject.getString("fromDate");
+                    String toDateData = jObject.getString("toDate");
+                    String detailData = jObject.getString("detail");
+                    int participantData = jObject.getInt("participant");
+                    String membersData = jObject.getString("members");
+
+                    timePaser(fromDateData, toDateData);
+
+                    this.detail.setText(detailData);
+                    this.place.setText(placeData);
+                    Log.e("JSON", indexData + ", " + userMailData + ", " + hobbyDetailData + ", " + fromDateData + ", " + place + ", " + membersData + ", " + participantData);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if(url.equals("http://61.84.24.188/topping3/modify.php")){
+            if(data.equals("successModify"))
+                Toast.makeText(getApplicationContext(),"글이 수정 되었습니다.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(),"글이 수정 되지않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void timePaser(String from, String to){
+        StringTokenizer fromtk = new StringTokenizer(from);
+        StringTokenizer totk = new StringTokenizer(to);
+        String date1 = fromtk.nextToken(" ").trim().toString();
+        String time1 = fromtk.nextToken(" ").substring(0,5).trim().toString();
+        String date2 = totk.nextToken(" ").trim().toString();
+        String time2 = totk.nextToken(" ").substring(0,5).trim().toString();
+
+        this.dateFromDate.setText(date1);
+        this.dateToDate.setText(date2);
+        this.dateFromTime.setText(time1);
+        this.dateToTime.setText(time2);
+    }
 }

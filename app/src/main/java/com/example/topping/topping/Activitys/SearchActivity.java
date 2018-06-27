@@ -59,7 +59,10 @@ public class SearchActivity extends AbstractActivity {
         if(intent.getStringExtra("searchBox" )==null){
             searchBox.setVisibility(View.GONE);
             searchString.setVisibility(View.VISIBLE);
-            searchString.setText("카테고리 - "+get);
+            if(get.equals("") || get==null)
+                searchString.setText("카테고리 - 전체");
+            else
+                searchString.setText("카테고리 - "+get);
         }
         Log.e("get", get+"");
         editText.setText(get);

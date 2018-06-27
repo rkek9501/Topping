@@ -47,6 +47,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 public class ContentActivity extends AbstractActivity implements View.OnClickListener {
@@ -344,33 +345,39 @@ public class ContentActivity extends AbstractActivity implements View.OnClickLis
         String returnString = "";
         outString = "";
         String CheckMember = null;
-        for (int i = 0; i < participant; i++) {
-            member[i] = tokens.nextToken(",").trim().toString();
-            if (i > 0){
-                if(member[i].equals(userMail))
-                    CheckMember = member[i];
-            }
-            Log.e("content for + " + i, member[i]);
-        }
-        for (int i = 0; i < participant; i++) {
-            if (i == (participant - 1)) {
-                if (CheckMember!=null) {
-                    if (!CheckMember.equals(member[i]))
-                        outString += member[i] + ",";
+        try{
+            for (int i = 0; i < participant; i++) {
+                member[i] = tokens.nextToken(",").trim().toString();
+                if (i > 0){
+                    if(member[i].equals(userMail))
+                        CheckMember = member[i];
                 }
-                returnString += "`userMail`='" + member[i] + "'";
-            } else {
-                if (CheckMember!=null) {
-                    if (!CheckMember.equals(member[i]))
-                        outString += member[i] + ",";
-                }
-                returnString += "`userMail`='" + member[i] + "' || ";
+                Log.e("content for + " + i, member[i]);
             }
-        }
-        WriterCheck(writer,CheckMember);
+            for (int i = 0; i < participant; i++) {
+                if (i == (participant - 1)) {
+                    if (CheckMember!=null) {
+                        if (!CheckMember.equals(member[i]))
+                            outString += member[i] + ",";
+                    }
+                    returnString += "`userMail`='" + member[i] + "'";
+                } else {
+                    if (CheckMember!=null) {
+                        if (!CheckMember.equals(member[i]))
+                            outString += member[i] + ",";
+                    }
+                    returnString += "`userMail`='" + member[i] + "' || ";
+                }
+            }
+            WriterCheck(writer,CheckMember);
 
-        Log.e("content2 bb",returnString);
-        new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content2.php","members="+returnString.toString(), "");
+            Log.e("content2 bb",returnString);
+            new soyuHttpTask(handler).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://61.84.24.188/topping3/content2.php","members="+returnString.toString(), "");
+        }catch (NoSuchElementException e){
+            Toast.makeText(getApplicationContext(), "데이터가 제대로 로딩되지 않았습니다. 다시접속해 주세요.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
     }
     private void timePaser(String from, String to){
         StringTokenizer fromtk = new StringTokenizer(from);
